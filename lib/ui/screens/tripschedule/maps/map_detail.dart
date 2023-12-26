@@ -28,6 +28,7 @@ class _MapDetailState extends State<MapDetail> {
   Set<Marker> _marker = {};
   Set<Polyline> _polyline = {};
   late Direction _direction;
+  
 
 
   @override
