@@ -47,9 +47,9 @@ class StartedPage extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: TextCustom(
-                text: 'Chào mừng bạn đến với Phượt Nha! Nơi chia sẻ những trải nghiệm và cùng nhau tạo nên những khoảnh khắc tuyệt vời trên những cung đường',
+                text: 'Chào mừng bạn đến với Phượt Nha! Nơi chia sẻ những trải nghiệm và cùng nhau tạo nên những khoảnh khắc tuyệt vời trên những cung đường.',
                 textAlign: TextAlign.center,
-                maxLines: 2,
+                maxLines: 5,
                 fontSize: 17,
               ),
             ),

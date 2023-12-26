@@ -236,7 +236,6 @@ class _AddTripPageState extends State<AddTripPage> {
                                     ),
                                   )),
                               child: TextFormField(
-                                
                                 controller: _dateStartController,
                                 // keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(

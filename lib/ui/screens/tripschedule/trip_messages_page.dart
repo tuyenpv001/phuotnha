@@ -242,7 +242,7 @@ class _ChatMessagesPageState extends State<ChatMessagesTripPage> with TickerProv
                 ],
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10,vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
                 decoration: BoxDecoration(
                    borderRadius: BorderRadius.circular(10),
                    border: Border.all(

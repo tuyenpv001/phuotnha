@@ -386,31 +386,35 @@ class _ListViewPosts extends StatelessWidget {
 class _ListWithoutPosts extends StatelessWidget {
 
 
-  final List<String> svgPosts = [
-    'assets/svg/without-posts-home.svg',
-    'assets/svg/without-posts-home.svg',
-    'assets/svg/mobile-new-posts.svg',
-  ];
+  // final List<String> svgPosts = [
+  //   'assets/svg/without-posts-home.svg',
+  //   'assets/svg/without-posts-home.svg',
+  //   'assets/svg/mobile-new-posts.svg',
+  // ];
 
   @override
   Widget build(BuildContext context) {
 
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
 
-    return Column(
-      children: List.generate(3, (index) => Container(
-          margin: const EdgeInsets.only(bottom: 20.0),
-          padding: const EdgeInsets.all(10.0),
-          height: 350,
-          width: size.width,
-          // color: Colors.amber,
-          child: SvgPicture.asset(svgPosts[index], height: 15),
-        ),
-      ),
+    return const Center(
+      child: Text("Không có bài viết nào."),
     );
+
   }
   
 }
 
 
 
+    //  Column(
+    //   children: List.generate(3, (index) => Container(
+    //       margin: const EdgeInsets.only(bottom: 20.0),
+    //       padding: const EdgeInsets.all(10.0),
+    //       height: 350,
+    //       width: size.width,
+    //       // color: Colors.amber,
+    //       child: SvgPicture.asset(svgPosts[index], height: 15),
+    //     ),
+    //   ),
+    // );

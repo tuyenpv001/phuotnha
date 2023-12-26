@@ -26,7 +26,7 @@ class _TripDetailPageState extends State<TripDetailPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: 3);
+    _tabController = TabController(vsync: this, length: 2);
   }
 
   @override
@@ -87,147 +87,89 @@ class _TripDetailPageState extends State<TripDetailPage>
                   ? const Center(child: Text("Loading...")) :
                  ListView(
               children: [
-                Container(
-                  height: 250,
-                  width: size.width * 0.9,
-                  margin:const  EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white60, width: 1),
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      image: DecorationImage(
-                          image: NetworkImage(Environment.baseUrl + tripDetail.avatar),
-                          fit: BoxFit.cover)),
-                ),
                 SizedBox(
-                  height: 80,
+                  height: 250,
                   width: double.infinity,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    padding:const  EdgeInsets.symmetric(horizontal: 15),
+                    itemCount: tripImages.length,
                     itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () {
-                 
-                        },
-                        child: Container(
-                          height: 60,
-                          width: size.width * 0.9 / 4,
-                          margin:const  EdgeInsets.only(right: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white60, width: 1),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              image:const  DecorationImage(
-                                  image:
-                                      AssetImage("assets/asset/images/profile.jpg"),
-                                  fit: BoxFit.cover)),
-                        ),
-                      );
-                    },
-                  ),
+                      return ImageContainer(size: size, imgUrl: tripImages[index].tripImgUrl);
+                    },),
                 ),
+   
                 const SizedBox(
                   height: 10,
                 ),
-                Text(tripDetail.title, style: kTitle2Style),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(tripDetail.title,
+                                 style: const TextStyle(
+                                    fontSize: 20.0,
+                                    
+                                    fontWeight: FontWeight.bold,
+                                    color: kPrimaryLabelColor,
+                                    fontFamily: 'SF Pro Text',
+                                    overflow: TextOverflow.ellipsis
+                                  ),
+                                  maxLines: 3,
+                                  ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        BtnTripDetail(
+                          child: const Text("Tham gia",
+                              style: TextStyle(color: Colors.white)),
+                          onTap: () {
+                            print("Đã tham gia");
+                          },
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        InkWell(
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: const BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xFF73A0F4),
+                                  Color(0xFF4A47F5),
+                                ],
+                              ),
+                            ),
+                            child: const Icon(
+                                Icons.bookmark_add_outlined,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10,),
                 SizedBox(
                     width: size.width * 0.9,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            const TextCustom(
-                                text: "Địa điểm: ",
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600),
-                            TextCustom(
-                              text: tripDetail.tripTo,
-                              fontSize: 15,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const TextCustom(
-                                text: "Thời gian: ",
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600),
-                            TextCustom(
-                              text:
-                                  "${DateFormat.yMd().format(tripDetail.dateStart)} - ${DateFormat.yMd().format(tripDetail.dateEnd)}",
-                              fontSize: 15,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const TextCustom(
-                                text: "Số thành viên: ",
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600),
-                            TextCustom(
-                              text: " ${tripDetail.totalMemberJoined} /${tripDetail.tripMember}",
-                              fontSize: 15,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        _renderInfo("Địa điểm:", tripDetail.tripTo),
+                        const SizedBox(height: 5,),
+                        _renderInfo("Thời gian:", "${DateFormat.yMd().format(tripDetail.dateStart)} - ${DateFormat.yMd().format(tripDetail.dateEnd)}"),
+                        const SizedBox(height: 5,),
+                        _renderInfo("Số thành viên:",
+                                  " ${tripDetail.totalMemberJoined} /${tripDetail.tripMember}"),
                       ],
                     ),
                   ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFF73A0F4),
-                              Color(0xFF4A47F5),
-                            ],
-                          ),
-                        ),
-                        child:const Icon(Icons.bookmark, color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30.0),
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFF73A0F4),
-                            Color(0xFF4A47F5),
-                          ],
-                        ),
-                      ),
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30))),
-                        child: const TextCustom(
-                            text: "Tham gia", color: Colors.white, fontSize: 16),
-                        onPressed: () {
-                       
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ), // List tabs
+                const SizedBox(height: 10,),
+
+                 // List tabs
                 SizedBox(
                   height: 60,
                   child: Align(
@@ -242,18 +184,13 @@ class _TripDetailPageState extends State<TripDetailPage>
                             CircleTabIndicator(color: Colors.blueAccent, radius: 4),
                         tabs: [
                           Tab(
-                              child: Text(
+                            child: Text(
                             "Thông tin chi tiết",
                             style: kHeadlineLabelStyle,
                           )),
                           Tab(
                               child: Text(
-                            "Lịch trình cụ thể",
-                            style: kHeadlineLabelStyle,
-                          )),
-                          Tab(
-                              child: Text(
-                            "Địa điểm gợi ý",
+                            "Địa điểm đánh dấu",
                             style: kHeadlineLabelStyle,
                           )),
                         ]),
@@ -269,15 +206,9 @@ class _TripDetailPageState extends State<TripDetailPage>
                     ],
                   ),
                   ListView(
-                    children:[
-                      Text(
-                         tripDetail.description),
-                    ],
-                  ),
-                  ListView(
                     children:  [
                       Text(
-                          tripDetail.description),
+                        tripDetail.description),
                     ],
                   ),
                 ]),
@@ -286,6 +217,80 @@ class _TripDetailPageState extends State<TripDetailPage>
             );
                 }),
           ),
+    );
+  }
+
+  Row _renderInfo(String title, String detail) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextCustom(
+            text: title,
+            fontSize: 15,
+            color: Colors.black87,
+            fontWeight: FontWeight.normal),
+        TextCustom(
+          text: detail,
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+        ),
+      ],
+    );
+  }
+}
+
+class BtnTripDetail extends StatelessWidget {
+  const BtnTripDetail({
+    super.key, required this.child, this.onTap,
+  });
+
+  final void Function()? onTap;
+  final Widget? child;
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+           onTap: onTap,
+           child: Container(
+             padding: const EdgeInsets.symmetric(
+                 horizontal: 15, vertical: 10),
+             decoration: BoxDecoration(
+               borderRadius: BorderRadius.circular(30.0),
+               gradient: const LinearGradient(
+                 colors: [
+                   Color(0xFF73A0F4),
+                   Color(0xFF4A47F5),
+                 ],
+               ),
+             ),
+             child: child,
+           ),
+         );
+  }
+}
+
+class ImageContainer extends StatelessWidget {
+  const ImageContainer({
+    super.key,
+    required this.size,
+    required this.imgUrl,
+  });
+
+  final Size size;
+  final String imgUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 250,
+      width: size.width * 0.95,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        image: DecorationImage(
+          fit:BoxFit.fill,  
+          image: NetworkImage(Environment.baseUrl + imgUrl))
+      ),
     );
   }
 }
