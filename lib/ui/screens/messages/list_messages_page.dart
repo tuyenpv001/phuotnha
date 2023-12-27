@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_media/colors.dart';
+import 'package:social_media/ui/themes/button.dart';
+import 'package:social_media/ui/themes/title_appbar.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:social_media/ui/helpers/animation_route.dart';
 import 'package:social_media/domain/models/response/response_list_chat.dart';
@@ -27,14 +30,23 @@ class _ListMessagesPageState extends State<ListMessagesPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const TextCustom(text: 'Tin nhắn', fontSize: 20, fontWeight: FontWeight.w500, letterSpacing: .8),
-        centerTitle: true,
+        title:const  TitleAppbar(title: "Tin nhắn"),
         elevation: 0,
-        leading: IconButton(
-          splashRadius: 20,
-          onPressed: () => Navigator.pop(context), 
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black87 )
+        leading:  Button(
+          height: 40,
+          width: 40,
+          bg: bgGrey,
+          icon:
+              const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
+          onPress: () {
+           Navigator.pop(context);
+          },
         ),
+        // leading: IconButton(
+        //   splashRadius: 20,
+        //   onPressed: () => Navigator.pop(context), 
+        //   icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black87 )
+        // ),
         actions: [
           IconButton(
             onPressed: (){}, 

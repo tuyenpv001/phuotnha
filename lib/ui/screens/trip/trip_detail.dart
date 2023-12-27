@@ -4,8 +4,13 @@ import 'package:social_media/constants.dart';
 import 'package:social_media/data/env/env.dart';
 import 'package:social_media/domain/models/response/response_trip.dart';
 import 'package:social_media/domain/services/trip_services.dart';
+import 'package:social_media/ui/helpers/render.dart';
 import 'package:social_media/ui/themes/button.dart';
+import 'package:social_media/ui/themes/button_circle.dart';
+import 'package:social_media/ui/themes/button_detail.dart';
 import 'package:social_media/ui/themes/colors_theme.dart';
+import 'package:social_media/ui/themes/image_container.dart';
+import 'package:social_media/ui/widgets/circle_indicator.dart';
 import 'package:social_media/ui/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -85,89 +90,77 @@ class _TripDetailPageState extends State<TripDetailPage>
                 
                return  !snapshot.hasData
                   ? const Center(child: Text("Loading...")) :
-                 ListView(
-              children: [
-                SizedBox(
-                  height: 250,
-                  width: double.infinity,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: tripImages.length,
-                    itemBuilder: (context, index) {
-                      return ImageContainer(size: size, imgUrl: tripImages[index].tripImgUrl);
-                    },),
-                ),
-   
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ListView(
                   children: [
-                    Flexible(
-                      child: Text(tripDetail.title,
-                                 style: const TextStyle(
-                                    fontSize: 20.0,
-                                    
-                                    fontWeight: FontWeight.bold,
-                                    color: kPrimaryLabelColor,
-                                    fontFamily: 'SF Pro Text',
-                                    overflow: TextOverflow.ellipsis
-                                  ),
-                                  maxLines: 3,
-                                  ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: SizedBox(
+                        height: 250,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tripImages.length,
+                          itemBuilder: (context, index) {
+                            return ImageContainer(size: size, imgUrl: tripImages[index].tripImgUrl);
+                          },),
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        BtnTripDetail(
-                          child: const Text("Tham gia",
-                              style: TextStyle(color: Colors.white)),
-                          onTap: () {
-                            print("Đã tham gia");
-                          },
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        InkWell(
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Color(0xFF73A0F4),
-                                  Color(0xFF4A47F5),
-                                ],
-                              ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(tripDetail.title,
+                          style: const TextStyle(
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.bold,
+                              color: kPrimaryLabelColor,
+                              fontFamily: 'SF Pro Text',
+                              overflow: TextOverflow.ellipsis
                             ),
-                            child: const Icon(
-                                Icons.bookmark_add_outlined,
-                                color: Colors.white),
+                            maxLines: 3,
                           ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          BtnTripDetail(
+                            child: const Text("Tham gia",
+                                style: TextStyle(color: Colors.white)),
+                            onTap: () {
+                              print("Đã tham gia");
+                            },
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          BtnCircle(onTap: () {
+                            print("luu");
+                          },),
+                        ],
+                      ),
                   ],
                 ),
-                const SizedBox(height: 10,),
-                SizedBox(
-                    width: size.width * 0.9,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _renderInfo("Địa điểm:", tripDetail.tripTo),
-                        const SizedBox(height: 5,),
-                        _renderInfo("Thời gian:", "${DateFormat.yMd().format(tripDetail.dateStart)} - ${DateFormat.yMd().format(tripDetail.dateEnd)}"),
-                        const SizedBox(height: 5,),
-                        _renderInfo("Số thành viên:",
-                                  " ${tripDetail.totalMemberJoined} /${tripDetail.tripMember}"),
-                      ],
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: SizedBox(
+                      width: size.width * 0.9,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Render.renderInforDetailTrip("Địa điểm:", tripDetail.tripTo),
+                          const SizedBox(height: 10,),
+                          Render.renderInforDetailTrip("Thời gian:", "${DateFormat('dd/MM/yyyy').format(tripDetail.dateStart)} - ${DateFormat('dd/MM/yyyy').format(tripDetail.dateEnd)}"),
+                          const SizedBox(height: 10,),
+                         Render.renderInforDetailTrip("Số thành viên:",
+                                    " ${tripDetail.totalMemberJoined} /${tripDetail.tripMember}"),
+                        ],
+                      ),
                     ),
-                  ),
-                const SizedBox(height: 10,),
+                ),
 
                  // List tabs
                 SizedBox(
@@ -215,112 +208,15 @@ class _TripDetailPageState extends State<TripDetailPage>
               )
               ],
             );
-                }),
-          ),
-    );
-  }
-
-  Row _renderInfo(String title, String detail) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        TextCustom(
-            text: title,
-            fontSize: 15,
-            color: Colors.black87,
-            fontWeight: FontWeight.normal),
-        TextCustom(
-          text: detail,
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
-        ),
-      ],
-    );
-  }
-}
-
-class BtnTripDetail extends StatelessWidget {
-  const BtnTripDetail({
-    super.key, required this.child, this.onTap,
-  });
-
-  final void Function()? onTap;
-  final Widget? child;
-  
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-           onTap: onTap,
-           child: Container(
-             padding: const EdgeInsets.symmetric(
-                 horizontal: 15, vertical: 10),
-             decoration: BoxDecoration(
-               borderRadius: BorderRadius.circular(30.0),
-               gradient: const LinearGradient(
-                 colors: [
-                   Color(0xFF73A0F4),
-                   Color(0xFF4A47F5),
-                 ],
-               ),
-             ),
-             child: child,
-           ),
-         );
-  }
-}
-
-class ImageContainer extends StatelessWidget {
-  const ImageContainer({
-    super.key,
-    required this.size,
-    required this.imgUrl,
-  });
-
-  final Size size;
-  final String imgUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 250,
-      width: size.width * 0.95,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        image: DecorationImage(
-          fit:BoxFit.fill,  
-          image: NetworkImage(Environment.baseUrl + imgUrl))
+          }),
       ),
     );
   }
+
 }
 
-// ignore: must_be_immutable
-class CircleTabIndicator extends Decoration {
-  final Color color;
-  double radius;
 
-  CircleTabIndicator({required this.color, required this.radius});
 
-  @override
-  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
-    return _CirclePainter(color: color, radius: radius);
-  }
-}
 
-class _CirclePainter extends BoxPainter {
-  final double radius;
-  late Color color;
-  _CirclePainter({required this.color, required this.radius});
 
-  @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
-    late Paint _paint;
-    _paint = Paint()..color = color;
-    _paint = _paint..isAntiAlias = true;
-    final Offset circleOffset =
-        offset + Offset(cfg.size!.width / 2, cfg.size!.height - radius);
 
-    canvas.drawCircle(circleOffset, radius, _paint);
-  }
-}

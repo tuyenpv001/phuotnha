@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_media/colors.dart';
 import 'package:social_media/domain/blocs/blocs.dart';
 import 'package:social_media/domain/models/response/response_notifications.dart';
 import 'package:social_media/domain/services/notifications_services.dart';
 import 'package:social_media/ui/helpers/helpers.dart';
+import 'package:social_media/ui/themes/button.dart';
+import 'package:social_media/ui/themes/title_appbar.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:social_media/data/env/env.dart';
 import 'package:social_media/ui/screens/home/home_page.dart';
@@ -41,13 +44,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const TextCustom(text: 'Thông báo', fontWeight: FontWeight.w500, letterSpacing: .9, fontSize: 19 ),
+          title:const TitleAppbar(title: "Thông báo"),
           elevation: 0,
-          leading: IconButton(
-            splashRadius: 20,
-            onPressed: () => Navigator.pushAndRemoveUntil(context, routeSlide(page: const HomePage()), (_) => false),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black)
-          ),
+          leading: 
+            Button(height:40 
+          , width: 40, bg: bgGrey, icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black), onPress:() {
+            Navigator.pushAndRemoveUntil(context, routeSlide(page: const HomePage()), (_) => false);
+          },),
         ),
         body: SafeArea(
           child: FutureBuilder<List<Notificationsdb>>(
