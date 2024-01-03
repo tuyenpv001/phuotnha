@@ -33,10 +33,12 @@ class TripServices {
       ..fields['trip_to'] = tripTo
       ..fields['trip_member'] = tripMember.toString()
       ..fields['trip_status'] = tripStatus;
+    
     for (var image in images) {
       request.files
           .add(await http.MultipartFile.fromPath('imageTrips', image.path));
     }
+    
 
     final response = await request.send();
     var data = await http.Response.fromStream(response);
@@ -100,13 +102,13 @@ class TripServices {
     return ResponseTripProfile.fromJson(jsonDecode(resp.body)).trip;
   }
 
-  Future<DefaultResponse> saveTripByUser(String uidTrip) async {
+  Future<DefaultResponse> saveTripByUser(String uidTrip, String type ) async {
     final token = await secureStorage.readToken();
 
     final resp = await http.post(
         Uri.parse('${Environment.urlApi}/trip/save-trip'),
         headers: {'Accept': 'application/json', 'xxx-token': token!},
-        body: {'trip_uid': uidTrip});
+        body: {'trip_uid': uidTrip, 'type': type});
 
     return DefaultResponse.fromJson(jsonDecode(resp.body));
   }
@@ -117,6 +119,15 @@ class TripServices {
         Uri.parse('${Environment.urlApi}/trip/join-trip'),
         headers: {'Accept': 'application/json', 'xxx-token': token!},
         body: {'trip_uid': uidTrip, 'type': type});
+
+    return DefaultResponse.fromJson(jsonDecode(resp.body));
+  }
+  Future<DefaultResponse> deleteTripById(String tripUid) async {
+    final token = await secureStorage.readToken();
+
+    final resp = await http.delete(
+        Uri.parse('${Environment.urlApi}/trip/delete-trip/$tripUid'),
+        headers: {'Accept': 'application/json', 'xxx-token': token!},);
 
     return DefaultResponse.fromJson(jsonDecode(resp.body));
   }
@@ -212,7 +223,7 @@ class TripServices {
         Uri.parse('${Environment.urlApi}/trip/get-all-trip-by-user-id'),
         headers: {'Accept': 'application/json', 'xxx-token': token!});
 
-    return ResponseTripByUser.fromJson(jsonDecode(resp.body)).tripUser;
+    return ResponseTripByUser.fromJson(jsonDecode(resp.body)).trips;
   }
 }
 

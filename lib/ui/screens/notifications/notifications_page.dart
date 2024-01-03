@@ -48,7 +48,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           elevation: 0,
           leading: 
             Button(height:40 
-          , width: 40, bg: bgGrey, icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black), onPress:() {
+          , width: 40, bg: ColorTheme.bgGrey, icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black), onPress:() {
             Navigator.pushAndRemoveUntil(context, routeSlide(page: const HomePage()), (_) => false);
           },),
         ),

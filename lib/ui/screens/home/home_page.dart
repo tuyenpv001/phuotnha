@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           Button(
           height: 40, 
           width: 40, 
-          bg: bgGrey,
+          bg: ColorTheme.bgGrey,
           icon: const Icon(Icons.messenger_outline, color: Colors.black,), 
           onPress: () => Navigator.push(
                       context,
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
           Button(
           height: 40, 
           width: 40, 
-          bg: bgGrey,
+          bg: ColorTheme.bgGrey,
           icon: const Icon(Icons.notifications_none_outlined, color: Colors.black,), 
           onPress: () => Navigator.pushAndRemoveUntil(
                       context,
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
           Button(
             height: 40,
             width: 40,
-            bg: bgPrimary, 
+            bg: ColorsCustom.primary, 
             icon: const Icon(Icons.add), 
             onPress: () {
                 Navigator.pushAndRemoveUntil(context, routeSlide(page: const AddPostPage()), (_) => false);

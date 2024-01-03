@@ -35,7 +35,7 @@ class _ListMessagesPageState extends State<ListMessagesPage> {
         leading:  Button(
           height: 40,
           width: 40,
-          bg: bgGrey,
+          bg: ColorTheme.bgGrey,
           icon:
               const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
           onPress: () {

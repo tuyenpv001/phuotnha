@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/colors.dart';
 import 'package:social_media/constants.dart';
-import 'package:social_media/data/env/env.dart';
+import 'package:social_media/domain/blocs/trip/trip_bloc.dart';
 import 'package:social_media/domain/models/response/response_trip.dart';
 import 'package:social_media/domain/services/trip_services.dart';
+import 'package:social_media/ui/helpers/error_message.dart';
+import 'package:social_media/ui/helpers/modal_loading_short.dart';
 import 'package:social_media/ui/helpers/render.dart';
 import 'package:social_media/ui/themes/button.dart';
 import 'package:social_media/ui/themes/button_circle.dart';
 import 'package:social_media/ui/themes/button_detail.dart';
-import 'package:social_media/ui/themes/colors_theme.dart';
 import 'package:social_media/ui/themes/image_container.dart';
+import 'package:social_media/ui/themes/title_appbar.dart';
 import 'package:social_media/ui/widgets/circle_indicator.dart';
-import 'package:social_media/ui/widgets/widgets.dart';
 import 'package:intl/intl.dart';
 
 class TripDetailPage extends StatefulWidget {
@@ -43,24 +45,31 @@ class _TripDetailPageState extends State<TripDetailPage>
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
+    final tripBloc = BlocProvider.of<TripBloc>(context);
+    return BlocListener<TripBloc, TripState>(
+      listener: (context, state) {
+      if (state is LoadingSaveTrip || state is LoadingTrip) {
+          modalLoadingShort(context);
+        } else if (state is FailureTrip) {
+          Navigator.pop(context);
+          errorMessageSnack(context, state.error);
+        } else if (state is SuccessTrip) {
+          Navigator.pop(context);
+          setState(() {});
+        }
+    },
+    child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
-          title: const TextCustom(
-            text: 'Chi tiết',
-            fontWeight: FontWeight.w600,
-            fontSize: 22,
-            color: ColorsCustom.secundary,
-            isTitle: true,
-          ),
+          title: const TitleAppbar(title: "Chi tiết"),
           elevation: 0,
           actions: [
             Button(
             height: 40, 
             width: 40, 
-            bg: bgGrey, 
+            bg: ColorTheme.bgGrey, 
             icon: const Icon(Icons.close,color: Colors.black),
              onPress: () {
                 Navigator.pop(context);
@@ -136,8 +145,28 @@ class _TripDetailPageState extends State<TripDetailPage>
                           const SizedBox(
                             width: 5,
                           ),
-                          BtnCircle(onTap: () {
-                            print("luu");
+                          BtnCircle(
+                            child: tripDetail.isSaved == 0 ? const Icon(Icons.bookmark_add_outlined, color: Colors.white)
+                            : const Icon(Icons.bookmark_remove_outlined, color: Colors.white),
+                            gradient: tripDetail.isSaved == 0 ? const LinearGradient(
+                                              colors: [
+                                                Color(0xFF73A0F4),
+                                                Color(0xFF4A47F5),
+                                              ],
+                                            ) : LinearGradient(
+                                            colors: [
+                                              ColorTheme.bluegray400,
+                                              ColorTheme.bluegray700,
+                                            ],
+                                          ),
+                            onTap: () {
+                            if(tripDetail.isSaved == 0) {
+                              tripBloc.add(OnSaveTripByUser(tripDetail.tripUid, 'save'));
+                            } else {
+                               tripBloc.add(OnSaveTripByUser(
+                                          tripDetail.tripUid, 'unsave'));
+                            }
+                            
                           },),
                         ],
                       ),
@@ -210,7 +239,9 @@ class _TripDetailPageState extends State<TripDetailPage>
             );
           }),
       ),
+    ),
     );
+
   }
 
 }

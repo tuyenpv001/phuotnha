@@ -8,6 +8,7 @@ import 'package:social_media/domain/services/trip_services.dart';
 import 'package:social_media/ui/screens/tripschedule/trip_detail_schedule.dart';
 import 'package:social_media/ui/screens/tripschedule/trip_messages_page.dart';
 import 'package:social_media/ui/screens/tripschedule/trip_start_page.dart';
+import 'package:social_media/ui/themes/colors_theme.dart';
 import 'package:social_media/ui/themes/title_appbar.dart';
 import 'package:intl/intl.dart';
 import 'package:social_media/ui/widgets/widgets.dart';
@@ -192,7 +193,7 @@ class ScheduleTripItem extends StatelessWidget {
                         );
                       },
                     ));
-                 },),
+                 }, isHighLight: false,),
                  const SizedBox(width: 5,),
                  ButtonSchedule(tripSchedule: tripSchedule,title: "Chi tiết", onPressed: () {
                   print("OKKK");
@@ -203,7 +204,7 @@ class ScheduleTripItem extends StatelessWidget {
                         );
                       },
                     ));
-                 },),
+                 }, isHighLight: false,),
                  const SizedBox(
                   width: 5,
                 ),
@@ -216,8 +217,7 @@ class ScheduleTripItem extends StatelessWidget {
                         );
                       },
                     ));
-                 },) : const SizedBox(),
-                
+                 }, isHighLight: true,) : const SizedBox(),
               ],
             ),
           ),
@@ -228,37 +228,42 @@ class ScheduleTripItem extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class ButtonSchedule extends StatelessWidget {
-   const ButtonSchedule({
+   ButtonSchedule({
     super.key,
     required this.tripSchedule, required this.title,
-    required this.onPressed
+    required this.onPressed,required this.isHighLight
   });
 
   final TripSchedule tripSchedule;
   final String title;
-  final Function() onPressed;
+  final void Function()? onPressed;
+  bool isHighLight = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-     height: 35,
-     constraints: const BoxConstraints(maxWidth: 150, minWidth: 100),
-     padding: const EdgeInsets.symmetric(horizontal: 5),
-     decoration: BoxDecoration(
-         borderRadius: BorderRadius.circular(10.0),
-         border:
-             Border.all(color: const Color(0xFF73A0F4), width: 1)),
-     child: TextButton(
-       style: TextButton.styleFrom(
-           shape: RoundedRectangleBorder(
-               borderRadius: BorderRadius.circular(10))),
+    var size = MediaQuery.of(context).size;
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+       height: 35,
+       alignment: Alignment.center,
+       constraints: BoxConstraints(maxWidth:size.width * 0.28, minWidth: 50),
+       padding: const EdgeInsets.symmetric(horizontal: 5),
+       decoration: BoxDecoration(
+          gradient:isHighLight ? const LinearGradient(
+              colors: [
+                Color(0xFF73A0F4),
+                Color(0xFF4A47F5),
+              ],
+            ) : null,
+           borderRadius: BorderRadius.circular(10.0),
+           border:
+               Border.all(color: const Color(0xFF73A0F4), width: 1)),
        child: TextCustom(
-           text: title, color: Colors.black87, fontSize: 16),
-       onPressed: () {
-         onPressed();
-       },
-     ),
+           text: title, color: isHighLight ? Colors.white : Colors.black87, fontSize: 14),
+      ),
     );
   }
 }
@@ -374,7 +379,7 @@ class DayOfWeekItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isActive ? blue400 :  Colors.white ,
+        color: isActive ? ColorTheme.blue400 :  Colors.white ,
         borderRadius: BorderRadius.circular(12)
       ),
       child: Column(
@@ -394,7 +399,7 @@ class DayOfWeekItem extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  color: isActive ? bluegray400 : bluegray700,
+                                  color: isActive ? ColorTheme.bluegray400 : ColorTheme.bluegray700,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400,
                                 ),
