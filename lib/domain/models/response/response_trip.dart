@@ -10,10 +10,10 @@ class ResponseTrip {
   });
 
   factory ResponseTrip.fromJson(Map<String, dynamic> json) => ResponseTrip(
-        resp: json["resp"],
-        message: json["message"],
-        trips: List<Trip>.from(json["trips"].map((x) => Trip.fromJson(x))),
-      );
+      resp: json["resp"],
+      message: json["message"],
+      trips: List<Trip>.from(json["trips"].map((x) => Trip.fromJson(x))),
+  );
 }
 
 class Trip {
@@ -152,7 +152,7 @@ class ResponseTripDetail {
 }
 
 class TripRecommend {
-// `uid`, `trip_uid`, `lat`, `lng`, `address_short`, `address_detail`, `isGasStation`, `isRepairMotobike`
+// `uid`, `trip_uid`, `lat`, `lng`, `address_short`, `address_detail`, `isGasStation`, `isRepairMotobike`isEatPlace,`isCheckIn
   final String uid;
   final String tripUid;
   final double lat;
@@ -161,8 +161,10 @@ class TripRecommend {
   final String addressDetail;
   final int isGasStation;
   final int isRepairMotobike;
+  final int isEatPlace;
+  final int isCheckIn;
 
-  TripRecommend({required this.uid, required this.tripUid, required this.lat, required this.lng, required this.addressShort, required this.addressDetail, required this.isGasStation, required this.isRepairMotobike});
+  TripRecommend( {required this.uid, required this.tripUid, required this.lat, required this.lng, required this.addressShort, required this.addressDetail, required this.isGasStation, required this.isRepairMotobike,required this.isEatPlace, required this.isCheckIn});
 
   factory TripRecommend.fromJson(Map<String, dynamic> json) => TripRecommend(
     uid: json['uid'], 
@@ -172,7 +174,10 @@ class TripRecommend {
     addressShort: json['address_short'] ?? '', 
     addressDetail: json['address_detail'] ?? '', 
     isGasStation: json['isGasStation'] ?? 0, 
-    isRepairMotobike: json['isRepairMotobike'] ?? 0);
+    isRepairMotobike: json['isRepairMotobike'] ?? 0,
+    isEatPlace: json['isEatPlace'] ?? 0,
+    isCheckIn: json['isCheckIn'] ?? 0
+    );
 
 
 //  trip_recommend.uid as trip_recommend_uid, trip_recommend.trip_point, trip_recommend.trip_des_point
@@ -243,6 +248,7 @@ class TripDetail {
   final int totalMemberJoined;
   final int isClose;
   final int isJoined;
+  final int isSaved;
   final int isOwner;
 
   TripDetail(
@@ -259,6 +265,7 @@ class TripDetail {
       required this.totalMemberJoined,
       required this.isClose,
       required this.isJoined,
+      required this.isSaved,
       required this.isOwner,
       required this.title,
       required this.description,
@@ -283,6 +290,7 @@ class TripDetail {
       totalMemberJoined: json["totalMemberJoined"] ?? 0,
       isClose: json["isClose"] ?? 0,
       isJoined: json["isJoined"] ?? 0,
+      isSaved: json["isSaved"] ?? 0,
       isOwner: json["isOwner"] ?? 0);
 }
 

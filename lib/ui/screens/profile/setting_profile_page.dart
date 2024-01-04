@@ -30,7 +30,7 @@ class SettingProfilePage extends StatelessWidget {
         backgroundColor: Colors.white,
         title: const TextCustom(text: 'Cài đặt', fontSize: 19, fontWeight: FontWeight.w500),
         elevation: 0,
-        leading: Button(height: 40, width: 40, bg: bgGrey, icon:const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black), onPress: () => Navigator.pop(context)),
+        leading: Button(height: 40, width: 40, bg: ColorTheme.bgGrey, icon:const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black), onPress: () => Navigator.pop(context)),
         //  IconButton(
         //   onPressed: () => Navigator.pop(context), 
         //   icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black)

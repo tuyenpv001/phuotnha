@@ -44,8 +44,8 @@ class OnAddNewTripEvent extends TripEvent {
 
 class OnSaveTripByUser extends TripEvent {
   final String idTrip;
-
-  OnSaveTripByUser(this.idTrip);
+  final String type;
+  OnSaveTripByUser(this.idTrip, this.type);
 }
 
 class OnJoinTrip extends TripEvent {
@@ -84,7 +84,12 @@ class OnLikeOrUnlikeComment extends TripEvent {
 }
 
 
+class OnDeleteTrip extends TripEvent {
+  final String tripUid;
 
+  OnDeleteTrip(this.tripUid);
+
+}
 
 
 

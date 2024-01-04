@@ -74,16 +74,17 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: const Color(0xFF4A47F5),
+          title: const Text("Đăng ký"),
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
             onPressed: () => Navigator.pop(context),
           ),
         ),
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
             child: SingleChildScrollView(
               child: Form(
                 key: _keyForm,
@@ -180,7 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   
                     
                           
-                    const SizedBox(height: 20.0),
+                    const SizedBox(height: 40.0),
                     Btn(
                       text: 'Đăng ký', 
                       width: size.width,

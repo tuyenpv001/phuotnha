@@ -348,7 +348,7 @@ class _AddTripPageState extends State<AddTripPage> {
                             SearchMap(),
                             const SizedBox(height: 10.0,),
                             Container(
-                              margin: EdgeInsets.only(top: 5),
+                              margin: const EdgeInsets.only(top: 5),
                               height: MediaQuery.of(context).size.height * 0.65,
                               width: MediaQuery.of(context).size.width,
                               child: ChooseMapLocation()),
@@ -410,7 +410,7 @@ class _AddTripPageState extends State<AddTripPage> {
             height: 40,
             width: 40,
             decoration: BoxDecoration(
-                color: bgGrey, borderRadius: BorderRadius.circular(50)),
+                color: ColorTheme.bgGrey, borderRadius: BorderRadius.circular(50)),
             child:  IconButton(
                 splashRadius: 20,
                 onPressed: () => Navigator.pushAndRemoveUntil(
@@ -430,15 +430,6 @@ class _AddTripPageState extends State<AddTripPage> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0))
               ),
               onPressed: (){
-                // print( int.parse(_memberController.text));
-                // print( _dateStartController.text.trim());
-                // print( _titleController.text.trim());
-                // print( _descriptionController.text.trim());
-                // print( _tripFromController.text.trim());
-                // print( _tripToController.text.trim());
-                // print( _dateEndController.text.trim());
-                // print( _tripToController.text.trim());
-
                 if(_keyForm.currentState!.validate()){
                   // if(state.imageFileSelectedTrip != null){
                     tripBloc.add( OnAddNewTripEvent(_titleController.text.trim(), _descriptionController.text.trim(),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -21,7 +22,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
     on<OnLikeOrUnLikeTrip>(_likeOrUnlikeTrip);
     on<OnAddNewCommentEvent>(_addNewComment);
     on<OnLikeOrUnlikeComment>(_likeOrUnlikeComment);
-
+    on<OnDeleteTrip>(_deleteTripById);
   }
 
   // Future<void> _onPrivacyTrip( OnPrivacyTripEvent event, Emitter<TripState> emit ) async {
@@ -80,7 +81,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
 
       emit(LoadingSaveTrip());
 
-      final data = await tripService.saveTripByUser(event.idTrip);
+      final data = await tripService.saveTripByUser(event.idTrip, event.type);
 
       if( data.resp ){
         emit(SuccessTrip());
@@ -183,4 +184,24 @@ class TripBloc extends Bloc<TripEvent, TripState> {
 
   }
 
+
+  Future<FutureOr<void>> _deleteTripById(OnDeleteTrip event, Emitter<TripState> emit) async {
+    
+    try {
+
+      emit(LoadingSaveTrip());
+
+      final data = await tripService.deleteTripById(event.tripUid);
+
+      if( data.resp ){
+        emit(SuccessTrip());
+      }else{
+        emit(FailureTrip(data.message));
+      }
+      
+    } catch (e) {
+      emit(FailureTrip(e.toString()));
+    }
+
+  }
 }

@@ -9,7 +9,7 @@ class Badges {
     int index = 0;
 
     if (achivement == 'O') return '';
-    if (achivement == 'A') index = 4;
+    if (achivement == 'A') index = 3;
     if (achivement == 'B') index = 3;
     if (achivement == 'C') index = 2;
     if (achivement == 'D') index = 1;

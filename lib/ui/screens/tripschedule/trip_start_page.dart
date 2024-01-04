@@ -152,7 +152,7 @@ void _setMarkerRun() {
       Marker(
         markerId: MarkerId("user$i"),
         position: users[i],
-        icon: userFar.contains(i) ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen)
+        icon: userFar.contains(i) ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
         // Các thuộc tính khác của marker
       ),
     );
@@ -196,7 +196,7 @@ void _setMarkerRun() {
           title: const TitleAppbar(title: "Đang đi"),
           elevation: 0,
           actions: [
-            Button(bg: bgGrey,height: 40,width: 40,icon:const Icon(Icons.close, color: Colors.black),onPress: () {
+            Button(bg: ColorTheme.bgGrey,height: 40,width: 40,icon:const Icon(Icons.close, color: Colors.black),onPress: () {
               Navigator.pop(context);
         },),
       ],

@@ -1,8 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:social_media/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:social_media/constants.dart';
@@ -13,6 +9,7 @@ import 'package:social_media/ui/helpers/getBadges.dart';
 import 'package:social_media/ui/screens/tripschedule/maps/map_detail.dart';
 import 'package:social_media/ui/themes/button.dart';
 import 'package:social_media/ui/themes/colors_theme.dart';
+import 'package:social_media/ui/themes/slide_image.dart';
 import 'package:social_media/ui/widgets/widgets.dart';
 
 class TripDetailSchedulePage extends StatefulWidget {
@@ -51,7 +48,7 @@ class _TripDetailSchedulePageState extends State<TripDetailSchedulePage> {
             Button(
             height: 40, 
             width: 40, 
-            bg: bgGrey, 
+            bg: ColorTheme.bgGrey, 
             icon: const Icon(Icons.close,color: Colors.black),
              onPress: () {
                 Navigator.pop(context);
@@ -83,20 +80,9 @@ class _TripDetailSchedulePageState extends State<TripDetailSchedulePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          height: size.height * 0.3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            boxShadow: [
-                              BoxShadow(
-                                color: bgGrey,
-                                offset: const Offset(0, 5),
-                                blurRadius: 5.0
-                              )
-                            ]
-                          ),
-                        ),
-                        const SizedBox(height: 10,),
+                        SlideImage(size: size, tripImages: tripImages),
+
+                        const SizedBox(height: 20,),
                         Text(tripDetail.title, style: kTitle2Style,),
                         
                         const SizedBox(height: 10,),
@@ -104,56 +90,54 @@ class _TripDetailSchedulePageState extends State<TripDetailSchedulePage> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      Environment.baseUrl + tripDetail.avatar
-                                    ),
-                                    
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(
+                                    Environment.baseUrl + tripDetail.avatar
                                   ),
-                                   const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        tripDetail.username, 
-                                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
-                                      Text(tripDetail.isLeader == 1
-                                          ? "Leader"
-                                          : 'Người dùng')
-                                    ],
+                                  
+                                ),
+                                 const SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      tripDetail.username, 
+                                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+                                    Text(tripDetail.isLeader == 1
+                                        ? "Leader"
+                                        : 'Người dùng')
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Container(
+                              height: 50,
+                              width: 50,
+                              padding: const EdgeInsets.only(right: 8),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: kShadowColor.withOpacity(0.1),
+                                    offset: const Offset(0, 12),
+                                    blurRadius: 18.0,
                                   ),
                                 ],
                               ),
-                              Container(
-                                height: 50,
-                                width: 50,
-                                padding: const EdgeInsets.only(right: 8),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: kShadowColor.withOpacity(0.1),
-                                      offset: const Offset(0, 12),
-                                      blurRadius: 18.0,
-                                    ),
-                                  ],
-                                ),
-                                child: Badges.getBadgesByAchiement(tripDetail.userAchievement).isNotEmpty ? Image.asset(Badges.getBadgesByAchiement(tripDetail.userAchievement)) : null,
-                              ),
-                            ],
-                          ),
+                              child: Badges.getBadgesByAchiement(tripDetail.userAchievement).isNotEmpty ? Image.asset(Badges.getBadgesByAchiement(tripDetail.userAchievement)) : null,
+                            ),
+                          ],
                         ),
                         
-                        const SizedBox(height: 15,),
+                        const SizedBox(height: 20,),
                         _renderTitleInfo("Thông tin chi tiết"),
-                        const SizedBox(height: 5,),
+                        const SizedBox(height: 10,),
                         _renderInforRow("Địa điểm đến", tripDetail.tripTo,isBoldValue: true),
                         const SizedBox(height: 10,),
                         _renderInforRow("Địa điểm bắt đầu", tripDetail.tripFrom, isBoldValue: true),
@@ -176,26 +160,21 @@ class _TripDetailSchedulePageState extends State<TripDetailSchedulePage> {
                             isBoldValue: true),
                    
                     
-                        const SizedBox(height: 15,),
+                        const SizedBox(height: 20,),
                         _renderTitleInfo("Mô tả"),
-                        const SizedBox(height: 5,),
+                        const SizedBox(height: 10,),
                         Text(tripDetail.description),
 
-                        const SizedBox(height: 15,),
-                         _renderTitleInfo("Hình ảnh"),
-                        const SizedBox(height: 5,),
-
-
-                        const SizedBox(height: 15,),
+                        const SizedBox(height: 20,),
                          _renderTitleInfo("Điểm trên đường đi"),
-                        const SizedBox(height: 5,),
+                        const SizedBox(height: 10,),
                         MapDetail(tripRecommends: tripRecommends,),
                         const SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         _renderTitleInfo("Bình luận và đánh giá"),
                         const SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                       ],
                     ),
@@ -226,25 +205,25 @@ class _TripDetailSchedulePageState extends State<TripDetailSchedulePage> {
         TextCustom(
           text: value,
           fontSize: 15,
-          color: isBoldValue ?  textReadColor : Colors.black,
+          color: isBoldValue ?  ColorTheme.textReadColor : Colors.black,
           fontWeight: !isBoldValue ? FontWeight.normal : FontWeight.w700
         ),
       ],
     );
   }
 
-  Row _renderInforRowWithIcon(Icon icon, String title, String value,
-      {bool isBoldValue = false}) {
-    return Row(
-      children: [
-        icon,
-        const SizedBox(
-          width: 5,
-        ),
-        _renderInforRow(title, value, isBoldValue: isBoldValue),
-      ],
-    );
-  }
+  // Row _renderInforRowWithIcon(Icon icon, String title, String value,
+  //     {bool isBoldValue = false}) {
+  //   return Row(
+  //     children: [
+  //       icon,
+  //       const SizedBox(
+  //         width: 5,
+  //       ),
+  //       _renderInforRow(title, value, isBoldValue: isBoldValue),
+  //     ],
+  //   );
+  // }
 
 
 
@@ -253,3 +232,4 @@ class _TripDetailSchedulePageState extends State<TripDetailSchedulePage> {
  
 
 }
+

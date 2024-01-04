@@ -213,16 +213,16 @@ class TripItem extends StatelessWidget {
     if(totalMemberJoined == tripMember) {
       return LinearGradient(
         colors: [
-          bluegray400,
-          btnDisabled,
+          ColorTheme.bluegray400,
+          ColorTheme.btnDisabled,
         ],
       );
     }
     if(isClose != 0 && isOwner != 0) {
       return LinearGradient(
         colors: [
-        bluegray400,
-        btnDisabled,
+        ColorTheme.bluegray400,
+        ColorTheme.btnDisabled,
         ],
       );
     }

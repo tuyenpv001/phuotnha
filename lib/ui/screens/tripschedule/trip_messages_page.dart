@@ -149,7 +149,7 @@ class _ChatMessagesPageState extends State<ChatMessagesTripPage> with TickerProv
         ),
         actions: [
           Button(height:40 
-          , width: 40, bg: bgGrey, icon: const Icon(Icons.close, color: Colors.black), onPress: () { Navigator.pop(context); })
+          , width: 40, bg: ColorTheme.bgGrey, icon: const Icon(Icons.close, color: Colors.black), onPress: () { Navigator.pop(context); })
         ],
       ),
       body:  SlidingTopPanel(
@@ -246,7 +246,7 @@ class _ChatMessagesPageState extends State<ChatMessagesTripPage> with TickerProv
                 decoration: BoxDecoration(
                    borderRadius: BorderRadius.circular(10),
                    border: Border.all(
-                    color: bgGrey,
+                    color: ColorTheme.bgGrey,
                     width: 1
                    )
                 ),

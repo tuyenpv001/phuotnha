@@ -5,10 +5,11 @@ class Button extends StatelessWidget {
   final double width;
   final Color bg;
   final Icon icon;
-  final Function onPress;
+  final void Function()? onPress;
   final double? padding;
 
-  const Button({super.key, required this.height, required this.width, required this.bg, required this.icon,required this.onPress, this.padding});
+  const Button({super.key, required this.height, required this.width, required this.bg, required this.icon,
+   this.padding, this.onPress});
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +24,7 @@ class Button extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50)),
               child:  IconButton(
                   splashRadius: 20,
-                  onPressed: () {
-                    onPress();
-                  },
+                  onPressed:onPress,
                   icon: icon,)
       ),
     );

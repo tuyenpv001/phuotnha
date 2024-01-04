@@ -77,7 +77,6 @@ class _LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           backgroundColor: const Color(0xFF4A47F5),
           title: const Text("Đăng nhập"),
-          centerTitle: true,
           elevation: 0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
@@ -105,9 +104,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Container(
-                      transform: Matrix4.translationValues(0, -170, 0),
+                      transform: Matrix4.translationValues(-40, -170, 0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Phượt Nha",
@@ -121,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                             "Hãy bắt đầu chia sẻ \nnhững trải nghiệm của bạn",
                             style: kHeadlineLabelStyle.copyWith(
                                 color: Colors.white70),
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.left,
                           )
                         ],
                       ),
@@ -133,15 +132,15 @@ class _LoginPageState extends State<LoginPage> {
                   child: Container(
                     transform: Matrix4.translationValues(0, -250, 0),
                     child: Padding(
-                      padding:const  EdgeInsets.symmetric(horizontal: 53.0),
+                      padding:const  EdgeInsets.symmetric(horizontal: 40.0),
                       child: SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text(
-                              "Đăng nhập",
-                              style: kTitle1Style,
-                            ),
+                            // Text(
+                            //   "Đăng nhập",
+                            //   style: kTitle1Style,
+                            // ),
                             const SizedBox(
                               height: 15.0,
                             ),

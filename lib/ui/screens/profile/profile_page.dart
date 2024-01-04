@@ -8,6 +8,7 @@ import 'package:social_media/domain/models/response/response_profile.dart';
 import 'package:social_media/domain/services/user_services.dart';
 import 'package:social_media/ui/helpers/getBadges.dart';
 import 'package:social_media/ui/screens/profile/setting_profile_page.dart';
+import 'package:social_media/ui/screens/profile/trips_created.dart';
 import 'package:social_media/ui/themes/title_appbar.dart';
 import 'package:social_media/ui/widgets/heading_block.dart';
 import 'package:social_media/ui/widgets/widgets.dart';
@@ -42,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 40,
               width: 40,
               decoration: BoxDecoration(
-                  color: bgGrey,
+                  color: ColorTheme.bgGrey,
                   borderRadius: BorderRadius.circular(14)),
               child: IconButton(
                   splashRadius: 20,
@@ -137,17 +138,25 @@ class _ProfilePageState extends State<ProfilePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CardProfile(size: size,title: "Tổng chuyến đi đã tạo",value: profile.countTripCreated,),
+                      InkWell(
+                        onTap: () {
+                        
+                          Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) {
+                            return const TripsCreatedPage();
+                          },), (_) => true);
+                          
+                        },
+                        child: CardProfile(size: size,title: "Tổng chuyến đi đã tạo",value: profile.countTripCreated,)),
                       CardProfile(size: size,title: "Tổng chuyến đi đã tham gia",value: profile.countTripJoined,
-                                  color: bgBox1)
+                                  color: ColorTheme.bgBox1)
                     ],
                   ),
                   const SizedBox(height: 10,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CardProfile(size: size,title: "Người theo dõi",value: profile.countUserFollower,color: bgBox2),
-                      CardProfile(size: size,title: "Đang theo dõi",value: profile.countUserFollowing,color: bgBox3)
+                      CardProfile(size: size,title: "Người theo dõi",value: profile.countUserFollower,color: ColorTheme.bgBox2),
+                      CardProfile(size: size,title: "Đang theo dõi",value: profile.countUserFollowing,color: ColorTheme.bgBox3)
                     ],
                   ), 
                   const SizedBox(height: 15,),
@@ -277,7 +286,7 @@ class CardProfile extends StatelessWidget {
       height: 145,
       decoration: BoxDecoration(
        borderRadius: BorderRadius.circular(14),
-          color: color ?? bgBox,
+          color: color ?? ColorTheme.bgBox,
           boxShadow: const [
             BoxShadow(
 
