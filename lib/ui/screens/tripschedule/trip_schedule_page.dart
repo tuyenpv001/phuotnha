@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/colors.dart';
 import 'package:social_media/constants.dart';
 import 'package:social_media/data/env/env.dart';
+import 'package:social_media/domain/blocs/blocs.dart';
 import 'package:social_media/domain/models/response/response_trip.dart';
 import 'package:social_media/domain/services/trip_services.dart';
+import 'package:social_media/ui/screens/tripschedule/commons/utils.dart';
 import 'package:social_media/ui/screens/tripschedule/trip_detail_schedule.dart';
 import 'package:social_media/ui/screens/tripschedule/trip_messages_page.dart';
 import 'package:social_media/ui/screens/tripschedule/trip_start_page.dart';
@@ -84,6 +87,7 @@ class ScheduleTripItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TripScheduleBloc tripScheduleBloc = BlocProvider.of<TripScheduleBloc>(context);
     return Container(
       margin: const EdgeInsets.only(left: 20, top: 15,right: 20),
       padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 10),
@@ -210,6 +214,19 @@ class ScheduleTripItem extends StatelessWidget {
                 ),
                 tripSchedule.isOwner != 0 ?
                  ButtonSchedule(tripSchedule: tripSchedule,title: "Bắt đầu", onPressed: () {
+
+                    tripScheduleBloc.add(OnStartTrip(tripSchedule.tripUid, StatusTrip["begin"]!));
+
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return TripStartPage(
+                          tripId: tripSchedule.tripUid,
+                        );
+                      },
+                    ));
+                 }, isHighLight: true,) : const SizedBox(),
+                tripSchedule.tripStatus ==  StatusTrip['begin'] && tripSchedule.isOwner == 0 ?
+                 ButtonSchedule(tripSchedule: tripSchedule,title: "Bắt đầu", onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
                         return TripStartPage(
@@ -295,12 +312,12 @@ class _CalendarScheduleTripState extends State<CalendarScheduleTrip> {
           )
         ]
       ),
-      child:  Column(
+      child:const  Column(
           mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Padding(
+           Padding(
             padding: EdgeInsets.only(left: 15,top: 18,right: 16),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

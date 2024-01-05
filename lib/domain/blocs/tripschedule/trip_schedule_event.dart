@@ -1,12 +1,17 @@
 part of 'trip_schedule_bloc.dart';
 
+
+
+
 @immutable
 abstract class TripScheduleEvent {}
 
 class OnStartTrip extends TripScheduleEvent {
   final String tripId;
-  OnStartTrip(this.tripId);
+  final String status;
+  OnStartTrip(this.tripId, this.status);
 }
+
 
 class OnRateTrip extends TripScheduleEvent {
   final String comment;
@@ -24,4 +29,12 @@ class OnAddRoleTrip extends TripScheduleEvent {
   final String tripUid;
 
   OnAddRoleTrip({required this.uid, required this.role, required this.tripUid});
+}
+
+
+class OnUpdateLocationMembers extends TripScheduleEvent {
+  final String tripId;
+
+  OnUpdateLocationMembers({required this.tripId});
+
 }

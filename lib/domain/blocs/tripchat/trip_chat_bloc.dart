@@ -19,7 +19,7 @@ class ChatTripBloc extends Bloc<ChatTripEvent, ChatTripState> {
   void initSocketChat() async {
     final token = await secureStorage.readToken();
 
-    _socket = io.io(Environment.baseUrl + 'socket-chat-message-trip', {
+    _socket = io.io(Environment.baseUrl + 'socket-chat-message', {
       'transports': ['websocket'],
       'autoConnect': true,
       'forceNew': true,
@@ -29,6 +29,7 @@ class ChatTripBloc extends Bloc<ChatTripEvent, ChatTripState> {
     _socket.connect();
 
     _socket.on('message-trip', (data) {
+      print(data);
       add(OnListenMessageTripEvent(data['from'], data['to'], data['message']));
     });
   }

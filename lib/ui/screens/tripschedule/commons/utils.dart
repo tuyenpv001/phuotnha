@@ -115,3 +115,12 @@ class OverviewPolyLine {
   factory OverviewPolyLine.fromJson(Map<String, dynamic> json) => OverviewPolyLine(
     point: json['points'],);
 }
+
+// open' |'block'|'cancel'| 'pending'|'is_beginning'|'completed' | 'reopen'
+final Map<String, String> StatusTrip = {
+  "open": "open",
+  "begin": "is_beginning",
+  "cancel": "cancel",
+  "pending": "pending",
+  "completed": "completed"
+};

@@ -31,6 +31,28 @@ class ChatServices {
 
     return ResponseListMessages.fromJson(jsonDecode(resp.body)).listMessage;
   }
+  Future<List<ListChat>> getListChatByTrip() async {
+
+    final token = await secureStorage.readToken();
+
+    final resp = await http.get(Uri.parse('${Environment.urlApi}/chat/get-list-chat-by-trip'),
+      headers: { 'Accept': 'application/json', 'xxx-token': token! }
+    );  
+
+    return ResponseListChat.fromJson(jsonDecode(resp.body)).listChat;
+  }
+
+
+  Future<List<ListMessageTrip>> listMessagesByTrip(String uid) async {
+
+    final token = await secureStorage.readToken();
+
+    final resp = await http.get(Uri.parse('${Environment.urlApi}/chat/get-all-message-by-trip/'+ uid),
+      headers: { 'Accept': 'application/json', 'xxx-token' : token! }
+    );
+
+    return ResponseListMessagesTrip.fromJson(jsonDecode(resp.body)).listMessage;
+  }
 
 
 

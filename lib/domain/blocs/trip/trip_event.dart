@@ -91,6 +91,11 @@ class OnDeleteTrip extends TripEvent {
 
 }
 
+class OnChangeStatusTrip extends TripEvent {
+  final String tripId;
+  final String status;
+  OnChangeStatusTrip(this.tripId, this.status);
+}
 
 
 

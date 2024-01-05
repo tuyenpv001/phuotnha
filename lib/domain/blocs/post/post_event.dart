@@ -29,8 +29,9 @@ class OnAddNewPostEvent extends PostEvent {
 
 class OnSavePostByUser extends PostEvent {
   final String idPost;
+  final String type;
 
-  OnSavePostByUser(this.idPost);
+  OnSavePostByUser(this.idPost, this.type);
 }
 class OnUnSavePostByUser extends PostEvent {
   final String postSaveId;

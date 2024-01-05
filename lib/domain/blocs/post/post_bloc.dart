@@ -83,7 +83,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
       emit(LoadingSavePost());
 
-      final data = await postService.savePostByUser(event.idPost);
+      final data = await postService.savePostByUser(event.idPost, event.type);
 
       if( data.resp ){
         emit(SuccessPost());

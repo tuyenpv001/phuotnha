@@ -23,6 +23,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
     on<OnAddNewCommentEvent>(_addNewComment);
     on<OnLikeOrUnlikeComment>(_likeOrUnlikeComment);
     on<OnDeleteTrip>(_deleteTripById);
+    on<OnChangeStatusTrip>(_changeStatusTrip);
   }
 
   // Future<void> _onPrivacyTrip( OnPrivacyTripEvent event, Emitter<TripState> emit ) async {
@@ -192,6 +193,26 @@ class TripBloc extends Bloc<TripEvent, TripState> {
       emit(LoadingSaveTrip());
 
       final data = await tripService.deleteTripById(event.tripUid);
+
+      if( data.resp ){
+        emit(SuccessTrip());
+      }else{
+        emit(FailureTrip(data.message));
+      }
+      
+    } catch (e) {
+      emit(FailureTrip(e.toString()));
+    }
+
+  }
+  
+  Future<FutureOr<void>> _changeStatusTrip(OnChangeStatusTrip event, Emitter<TripState> emit) async {
+    
+    try {
+
+      emit(LoadingSaveTrip());
+
+      final data = await tripService.changeStatusTrip(event.tripId, event.status);
 
       if( data.resp ){
         emit(SuccessTrip());

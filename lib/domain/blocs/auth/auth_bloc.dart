@@ -22,7 +22,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit( LoadingAuthentication() );
 
       final data = await authServices.login(event.email, event.password);
-
       await Future.delayed(const Duration(milliseconds: 350));
 
       if( data.resp ){
@@ -78,10 +77,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
 
   Future<void> _onLogOut( OnLogOutEvent event, Emitter<AuthState> emit ) async {
-
+    
+    await authServices.changeStatusOffline();
     await secureStorage.deleteSecureStorage();
     emit( LogOut() );
-
+  
   }
 
 

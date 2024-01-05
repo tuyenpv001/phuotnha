@@ -69,7 +69,6 @@ class UserServices {
     return DefaultResponse.fromJson( jsonDecode( resp.body ));
   }
 
-
   Future<DefaultResponse> updatePictureCover( String cover ) async {
 
     final token = await secureStorage.readToken();
