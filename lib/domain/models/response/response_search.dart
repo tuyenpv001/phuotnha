@@ -57,3 +57,70 @@ class UserFind {
         "username": username,
     };
 }
+
+
+
+
+class ResponseSearchByKeyWord {
+  ResponseSearchByKeyWord({
+    required this.resp,
+    required this.message,
+    required this.users,
+    required this.trips,
+    required this.posts,
+  });
+
+  bool resp;
+  String message;
+  List<DataByKeyWord> users;
+  List<DataByKeyWord> trips;
+  List<DataByKeyWord> posts;
+
+  factory ResponseSearchByKeyWord.fromJson(Map<String, dynamic> json) => ResponseSearchByKeyWord(
+        resp: json["resp"],
+        message: json["message"],
+        users: List<DataByKeyWord>.from(
+            json["users"].map((x) => DataByKeyWord.fromJson(x))),
+        trips: List<DataByKeyWord>.from(
+            json["trips"].map((x) => DataByKeyWord.fromJson(x))),
+        posts: List<DataByKeyWord>.from(
+            json["posts"].map((x) => DataByKeyWord.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "resp": resp,
+        "message": message,
+        "users": List<dynamic>.from(users.map((x) => x.toJson())),
+        "trips": List<dynamic>.from(trips.map((x) => x.toJson())),
+        "posts": List<dynamic>.from(posts.map((x) => x.toJson())),
+      };
+}
+
+
+class DataByKeyWord {
+  DataByKeyWord({
+    required this.uid,
+    required this.name,
+    required this.image,
+    required this.type,
+  });
+
+  String uid;
+  String name;
+  String image;
+  String type;
+
+  factory DataByKeyWord.fromJson(Map<String, dynamic> json) => DataByKeyWord(
+        uid: json["uid"] ?? "",
+        name: json["name"] ?? '',
+        image: json["image"] ?? "",
+        type: json["type"] ?? '',
+      );
+
+  Map<String, dynamic> toJson() => {
+        "uid": uid,
+        "name": name,
+        "image": image,
+        "type": type,
+      };
+}

@@ -59,13 +59,13 @@ class PostServices {
   }
 
 
-  Future<DefaultResponse> savePostByUser(String uidPost) async {
+  Future<DefaultResponse> savePostByUser(String uidPost, String type) async {
 
     final token = await secureStorage.readToken();
 
     final resp = await http.post(Uri.parse('${Environment.urlApi}/post/save-post-by-user'),
       headers: { 'Accept': 'application/json', 'xxx-token': token! },
-      body: { 'post_uid' :  uidPost}
+      body: { 'post_uid' :  uidPost, 'type': type}
     );
 
     return DefaultResponse.fromJson(jsonDecode( resp.body ));

@@ -3,11 +3,13 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_media/colors.dart';
 import 'package:social_media/data/env/env.dart';
 import 'package:social_media/domain/models/response/response_list_stories.dart';
 import 'package:social_media/domain/models/response/response_stories.dart';
 import 'package:social_media/domain/services/story_services.dart';
 import 'package:social_media/ui/screens/Story/widgets/animated_line.dart';
+import 'package:social_media/ui/themes/button.dart';
 import 'package:social_media/ui/widgets/widgets.dart';
 
 
@@ -172,10 +174,12 @@ class _ViewStoryPageState extends State<ViewStoryPage> with TickerProviderStateM
                                 ],
                               ),
                             ),
-                            IconButton(
-                              onPressed: () => Navigator.pop(context), 
-                              icon: const Icon(Icons.close, color: Colors.white, )
-                            )
+                            Button(
+                              onPress: () => Navigator.pop(context),
+                              height: 40, width: 40, bg: ColorTheme.bluegray400, icon: const Icon(
+                                    Icons.close,
+                                    color: Colors.black87,
+                                  ))
                           ],
                         ),
                         

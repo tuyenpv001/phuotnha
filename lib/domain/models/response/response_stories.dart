@@ -35,18 +35,21 @@ class StoryHome {
         required this.uidStory,
         required this.username,
         required this.avatar,
+        required this.media,
         required this.countStory
     });
 
     String uidStory;
     String username;
     String avatar;
+    String media;
     int countStory;
 
     factory StoryHome.fromJson(Map<String, dynamic> json) => StoryHome(
         uidStory: json["uid_story"],
         username: json["username"],
         avatar: json["avatar"],
+        media: json["media"],
         countStory: json["count_story"],
     );
 
@@ -54,6 +57,7 @@ class StoryHome {
         "uid_story": uidStory,
         "username": username,
         "avatar": avatar,
+        "media": media,
         "count_story": countStory
     };
 }

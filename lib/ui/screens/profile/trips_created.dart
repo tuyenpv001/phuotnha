@@ -9,6 +9,7 @@ import 'package:social_media/domain/services/trip_services.dart';
 import 'package:social_media/ui/helpers/error_message.dart';
 import 'package:social_media/ui/helpers/modal_loading_short.dart';
 import 'package:social_media/ui/screens/profile/profile_page.dart';
+import 'package:social_media/ui/screens/tripschedule/commons/utils.dart';
 import 'package:social_media/ui/themes/button.dart';
 import 'package:social_media/ui/themes/colors_theme.dart';
 import 'package:social_media/ui/themes/title_appbar.dart';
@@ -123,40 +124,104 @@ class ListItem extends StatelessWidget {
             ),
             SizedBox(
               width: size.width * 0.9,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(trip.title,style:const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600
-                  )),
-                  const SizedBox(height: 10,),
-                  Row(
-                    children: [
-                      const TextCustom(
-                          text: "Thời gian: ",
+              child: Stack(
+                alignment: Alignment.topRight,
+                children:[
+                  Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(trip.title,style:const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600
+                        )),
+                      ],
+                    ),
+                    const SizedBox(height: 10,),
+                    Row(
+                      children: [
+                        const TextCustom(
+                            text: "Thời gian: ",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
+                        TextCustom(
+                          text:
+                              "${DateFormat('dd/MM/yyyy').format(trip.dateStart)} - ${DateFormat('dd/MM/yyyy').format(trip.dateEnd)}",
                           fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                      TextCustom(
-                        text:
-                            "${DateFormat('dd/MM/yyyy').format(trip.dateStart)} - ${DateFormat('dd/MM/yyyy').format(trip.dateEnd)}",
-                        fontSize: 15,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const TextCustom(
-                          text: "Số thành viên: ",
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        const TextCustom(
+                            text: "Số thành viên: ",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600),
+                        TextCustom(
+                          text: " ${trip.totalMemberJoined} /${trip.tripMember}",
                           fontSize: 15,
-                          fontWeight: FontWeight.w600),
-                      TextCustom(
-                        text: " ${trip.totalMemberJoined} /${trip.tripMember}",
-                        fontSize: 15,
-                      ),
-                    ],
-                  ),
-                ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                 //Set display status
+                trip.status == StatusTrip['completed']
+                    ? Image.asset(
+                        "assets/img/completed.png",
+                        height: 75,
+                        width: 75,
+                      )
+                    :
+                     Padding(
+                       padding: const EdgeInsets.only(top: 50),
+                       child: Container(
+                          padding: const EdgeInsets.only(left: 5,),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border:
+                                  Border.all(color: ColorTheme.bgGrey, width: 1)),
+                          child: DropdownButton(
+                            borderRadius: BorderRadius.circular(10),
+                            value: trip.status,
+                            underline: const SizedBox(),
+                            items: [
+                              DropdownMenuItem(
+                                value: StatusTrip['begin'],
+                                child: const Text("Đang bắt đầu"),
+                                enabled: _checkEnableChangeStatus(trip.status),
+                              ),
+                              DropdownMenuItem(
+                                value: StatusTrip['open'],
+                                child: const Text("Đang mở"),
+                                enabled: _checkEnableChangeStatus(trip.status),
+                              ),
+                              DropdownMenuItem(
+                                value: StatusTrip['cancel'],
+                                child: const Text("Hủy"),
+                                enabled: _checkEnableChangeStatus(trip.status),
+                              ),
+                              DropdownMenuItem(
+                                value: StatusTrip['pending'],
+                                child: const Text("Tạm hoãn"),
+                                enabled: _checkEnableChangeStatus(trip.status),
+                              ),
+                              DropdownMenuItem(
+                                value: StatusTrip['completed'],
+                                child: const Text("Hoàn thành"),
+                              ),
+                            ],
+                            onChanged: (value) {
+                              tripBloc.add(
+                                  OnChangeStatusTrip(trip.uid, value.toString()));
+                            },
+                          ),
+                        ),
+                     ),
+                //End Set display statuss
+                ]
               ),
             ),
           ],
@@ -187,5 +252,13 @@ class ListItem extends StatelessWidget {
         ]
       ),
     );
+  }
+
+
+  bool _checkEnableChangeStatus(String status){
+    if(status == StatusTrip["completed"]) return false;
+    if(status == StatusTrip["begin"]) return false;
+    return true;
+     
   }
 }

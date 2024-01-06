@@ -19,8 +19,18 @@ class UserServices {
   final StreamController<List<UserFind>> _streamController = StreamController<List<UserFind>>.broadcast(); 
   Stream<List<UserFind>> get searchProducts => _streamController.stream;
 
+  final StreamController<List<DataByKeyWord>> _streamUserController = StreamController<List<DataByKeyWord>>.broadcast(); 
+  Stream<List<DataByKeyWord>> get searchUser => _streamUserController.stream;
+  final StreamController<List<DataByKeyWord>> _streamTripController = StreamController<List<DataByKeyWord>>.broadcast(); 
+  Stream<List<DataByKeyWord>> get searchTrips => _streamTripController.stream;
+  final StreamController<List<DataByKeyWord>> _streamPostController = StreamController<List<DataByKeyWord>>.broadcast(); 
+  Stream<List<DataByKeyWord>> get searchPosts => _streamPostController.stream;
+
   void dispose() {
     _streamController.close();
+    _streamUserController.close();
+    _streamTripController.close();
+    _streamPostController.close();
   }
 
   Future<DefaultResponse> createdUser(String name, String user, String email, String password) async {
@@ -68,7 +78,6 @@ class UserServices {
 
     return DefaultResponse.fromJson( jsonDecode( resp.body ));
   }
-
 
   Future<DefaultResponse> updatePictureCover( String cover ) async {
 
@@ -167,6 +176,30 @@ class UserServices {
     };
 
     final timer = Timer(const Duration(milliseconds: 200), () => debouncer.value = username);
+    Future.delayed(const Duration(milliseconds: 400)).then((_) => timer.cancel());
+    
+  }
+ 
+  void searchByKeyword(String keyword) async {
+
+    debouncer.value = '';
+
+    debouncer.onValue = ( value ) async {
+
+      final token = await secureStorage.readToken();
+
+      final resp = await http.get(Uri.parse('${Environment.urlApi}/user/search-by-keyword?keyword='+ keyword),
+        headers: { 'Accept': 'application/json', 'xxx-token': token! }
+      );
+
+      final data =  ResponseSearchByKeyWord.fromJson(jsonDecode(resp.body));
+      print(data);
+      _streamUserController.add(data.users);
+      _streamTripController.add(data.trips);
+      _streamPostController.add(data.posts);
+    };
+
+    final timer = Timer(const Duration(milliseconds: 200), () => debouncer.value = keyword);
     Future.delayed(const Duration(milliseconds: 400)).then((_) => timer.cancel());
     
   }

@@ -61,3 +61,62 @@ class ListMessage {
         "created_at": createdAt.toIso8601String(),
     };
 }
+
+
+class ResponseListMessagesTrip {
+  ResponseListMessagesTrip({
+    required this.resp,
+    required this.message,
+    required this.listMessage,
+  });
+
+  bool resp;
+  String message;
+  List<ListMessageTrip> listMessage;
+
+  factory ResponseListMessagesTrip.fromJson(Map<String, dynamic> json) =>
+      ResponseListMessagesTrip(
+        resp: json["resp"],
+        message: json["message"],
+        listMessage: List<ListMessageTrip>.from(
+            json["listMessage"].map((x) => ListMessageTrip.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "resp": resp,
+        "message": message,
+        "listMessage": List<dynamic>.from(listMessage.map((x) => x.toJson())),
+      };
+}
+
+class ListMessageTrip {
+  ListMessageTrip({
+    required this.uidMessages,
+    required this.sourceUid,
+    required this.targetUid,
+    required this.message,
+    required this.createdAt,
+  });
+
+  String uidMessages;
+  String sourceUid;
+  String targetUid;
+  String message;
+  DateTime createdAt;
+// `uid_message_trip`, `source_uid`, `target_trip_uid`, `message`, `created_at`
+  factory ListMessageTrip.fromJson(Map<String, dynamic> json) => ListMessageTrip(
+        uidMessages: json["uid_message_trip"],
+        sourceUid: json["source_uid"],
+        targetUid: json["target_trip_uid"],
+        message: json["message"],
+        createdAt: DateTime.parse(json["created_at"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "uid_message_trip": uidMessages,
+        "source_uid": sourceUid,
+        "target_trip_uid": targetUid,
+        "message": message,
+        "created_at": createdAt.toIso8601String(),
+      };
+}

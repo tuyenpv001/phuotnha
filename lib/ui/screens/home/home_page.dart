@@ -136,8 +136,11 @@ class _ListHistories extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(left: 10.0),
-      height: 90,
+      height: 110,
       width: size.width,
+      constraints:const BoxConstraints(
+        maxHeight: 150
+      ),
       child: ListView(
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
@@ -148,30 +151,37 @@ class _ListHistories extends StatelessWidget {
               =>  state.user != null
               ? InkWell(
                 onTap: () => Navigator.push(context, routeSlide(page: const AddStoryPage())),
-                child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.blue),
-
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children:[ 
+                    Container(
+                      height: 95,
+                      width: 75,
+                      decoration: BoxDecoration(
+                        // shape: BoxShape.circle,
+                        border: Border.all(
+                          color: ColorsCustom.primary,
+                          width: 2
                         ),
-                        child: Container(
-                          height: 80,
-                          width: 75,
-                          decoration: BoxDecoration(
-                            // shape: BoxShape.circle,
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: NetworkImage(Environment.baseUrl + state.user!.image.toString() )
-                            )
-                          ),
-                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: NetworkImage(Environment.baseUrl + state.user!.image.toString() )
+                        )
                       ),
-                      // const SizedBox(height: 5.0),
-                      // TextCustom(text: state.user!.username, fontSize: 15)
-                    ],
+                    ),
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: ColorTheme.blue400,
+                        borderRadius: BorderRadius.circular(50)
+                      ),
+                      child: const Icon(Icons.add, color: Colors.white),
+                    ),
+                  )
+                  ]
                 ),
               )
               : const CircleAvatar()
@@ -197,40 +207,43 @@ class _ListHistories extends StatelessWidget {
                         highlightColor: Colors.transparent,
                         onTap: () => Navigator.push(context, routeFade(page: ViewStoryPage(storyHome:  snapshot.data![i]))),
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(3.0),
-                                decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  shape: BoxShape.circle,
-                                  gradient: LinearGradient(
-                                     begin: Alignment.topCenter,
-                                      colors: [
-                                        Colors.pink,
-                                        Colors.amber
-                                      ]
-                                  )
-                                ),
-                                child: Container(
-                                  height: 60,
-                                  width: 60,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(Environment.baseUrl + snapshot.data![i].avatar )
+                          padding: const EdgeInsets.only(right: 5),
+                          child: Stack(
+                                  alignment: Alignment.topCenter,
+                                  children: [
+                                    Container(
+                                      height: 95,
+                                      width: 75,
+                                      decoration: BoxDecoration(
+                                          // shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: ColorsCustom.primary,
+                                              width: 2),
+                                          borderRadius: BorderRadius.circular(10),
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                              image: NetworkImage(Environment
+                                                      .baseUrl +
+                                                  snapshot.data![i].media))),
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      child: Container(
+                                        height: 30,
+                                        width: 30,
+                                        alignment: Alignment.center,
+                                        decoration: BoxDecoration(
+                                            color: ColorTheme.blue400,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Text("${snapshot.data![i].countStory}",style:const TextStyle(
+                                          color: Colors.white
+                                        )),
+                                      ),
                                     )
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 5.0),
-                              TextCustom(text: snapshot.data![i].username, fontSize: 15)
-                            ],
-                          ),
+                                  ]),
                         ),
-                      );
+                        );
                     },
                   );
               },
@@ -366,10 +379,17 @@ class _ListViewPosts extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => postBloc.add(OnSavePostByUser( posts.postUid )),
+                  onPressed: (){
+                    if(posts.isSave == 0) {
+                     postBloc.add(OnSavePostByUser( posts.postUid, 'save' ));
+                    } else {
+                        postBloc.add(OnSavePostByUser(posts.postUid, 'unsave'));
+
+                    }
+                  },
                   icon: posts.isSave != 0 ? 
-                            const Icon(Icons.bookmark_added_rounded,size: 27, color: ColorsCustom.primary) 
-                          : const Icon(Icons.bookmark_border_rounded, size: 27, color: Colors.black)
+                            const Icon(Icons.bookmark_added_outlined,size: 27, color: ColorsCustom.primary) 
+                          : const Icon(Icons.bookmark_add_outlined, size: 27, color: Colors.black)
                 )
                
               ],

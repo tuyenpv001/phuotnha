@@ -1,12 +1,11 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:social_media/data/env/env.dart';
 import 'package:social_media/domain/models/response/response_trip.dart';
+import 'package:social_media/ui/screens/tripschedule/commons/load_icon.dart';
 import 'package:social_media/ui/screens/tripschedule/commons/utils.dart';
 
 
@@ -106,19 +105,19 @@ class _MapDetailState extends State<MapDetail> {
      late Uint8List resizedImage;
       for (var item in widget.tripRecommends) {
         if(item.isGasStation == 1) {
-          resizedImage = await getIconByType('gas-station');
+          resizedImage = await getIconByType('gas-station.png');
         } 
         else if(item.isRepairMotobike == 1) {
-          resizedImage = await getIconByType('car-repair');
+          resizedImage = await getIconByType('car-repair.png');
         }
         else if (item.isEatPlace == 1) {
-        resizedImage = await getIconByType('eat');
+        resizedImage = await getIconByType('eat.png');
         }
         else if (item.isCheckIn == 1) {
-        resizedImage = await getIconByType('check-in');
+        resizedImage = await getIconByType('check-in.png');
         } 
         else {
-          resizedImage = await getIconByType('location');
+          resizedImage = await getIconByType('location.png');
         }
         _marker.add(Marker(
           markerId: MarkerId(item.uid),
@@ -137,38 +136,6 @@ class _MapDetailState extends State<MapDetail> {
       });
     }
 
-    Future<Uint8List> getIconByType(String imageName) async {
-      Uint8List? image = await loadNetworkImage(imageName);
-      final ui.Codec markerImageCodec = await instantiateImageCodec(
-        image.buffer.asUint8List(),
-        targetHeight: 100,
-        targetWidth: 100
-      );
-      
-      final ui.FrameInfo frameInfo = await markerImageCodec.getNextFrame();
-      final ByteData? byteData = await frameInfo.image.toByteData(
-        format: ui.ImageByteFormat.png
-      );
-      final Uint8List resizedImage = byteData!.buffer.asUint8List();
-      return resizedImage;
-    }
-
-
-  Future<Uint8List> loadNetworkImage(String nameImage) async {
-    final complater = Completer<ImageInfo>();
-    var image = NetworkImage(Environment.baseUrl + nameImage +".png");
-    image.resolve(ImageConfiguration()).addListener(
-      ImageStreamListener((info, synchronousCall) =>
-        complater.complete(info)
-      )
-    );
-
-    final imageInfo = await complater.future;
-    
-    final byteData = await imageInfo.image.toByteData(format: ui.ImageByteFormat.png);
-    return byteData!.buffer.asUint8List();
-
-  }
 
   Future<void> _getPolyline() async {
     PolylinePoints polylinePoints = PolylinePoints();

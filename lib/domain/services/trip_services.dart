@@ -82,6 +82,15 @@ class TripServices {
 
     return ResponseTripDetailMember.fromJson(jsonDecode(resp.body));
   }
+  Future<ResponseLocationMember> getLocationAllMemberOfTrip(String id) async {
+  final token = await secureStorage.readToken();
+
+    final resp = await http.get(
+        Uri.parse('${Environment.urlApi}/trip/get-location-members-trip-by-id/' + id),
+        headers: {'Accept': 'application/json', 'xxx-token': token!});
+
+    return ResponseLocationMember.fromJson(jsonDecode(resp.body));
+  }
   Future<ResponseTripDetail> getDetailExtraTripById(String id) async {
     final token = await secureStorage.readToken();
 
@@ -119,6 +128,16 @@ class TripServices {
         Uri.parse('${Environment.urlApi}/trip/join-trip'),
         headers: {'Accept': 'application/json', 'xxx-token': token!},
         body: {'trip_uid': uidTrip, 'type': type});
+
+    return DefaultResponse.fromJson(jsonDecode(resp.body));
+  }
+  Future<DefaultResponse> changeStatusTrip(String uidTrip, String status) async {
+    final token = await secureStorage.readToken();
+
+    final resp = await http.post(
+        Uri.parse('${Environment.urlApi}/trip/change-status-trip'),
+        headers: {'Accept': 'application/json', 'xxx-token': token!},
+        body: {'trip_uid': uidTrip, 'status': status});
 
     return DefaultResponse.fromJson(jsonDecode(resp.body));
   }
@@ -225,6 +244,90 @@ class TripServices {
 
     return ResponseTripByUser.fromJson(jsonDecode(resp.body)).trips;
   }
+}
+
+class ResponseLocationMember {
+   final bool resp;
+  final String message;
+  final LeaderDetail leader;
+  final List<LocationMember> members;
+  final List<MockData> mockData;
+
+  ResponseLocationMember({
+    required this.resp,
+    required this.message,
+    required this.members,
+    required this.leader,
+    required this.mockData
+  });
+
+  factory ResponseLocationMember.fromJson(Map<String, dynamic> json) =>
+      ResponseLocationMember(
+        resp: json["resp"],
+        message: json["message"],
+        leader: LeaderDetail.fromJson(json['leader']),
+        members: List<LocationMember>.from(
+            json["members"].map((x) => LocationMember.fromJson(x))),
+        mockData: List<MockData>.from(
+            json["mockData"].map((x) => MockData.fromJson(x))),
+      );
+}
+
+class LocationMember {
+  final String fullname;
+  final String image;
+  final String type;
+  final String message;
+  final int isMember;
+  final double lat;
+  final double lng;
+
+  LocationMember({required this.fullname, required this.image, required this.type, required this.message, required this.isMember, required this.lat, required this.lng});
+
+  factory LocationMember.fromJson(Map<String, dynamic> json) => LocationMember(
+    fullname: json['fullname'] ?? "", 
+    image: json['image'] ?? "", 
+    type: json['type'] ?? "", 
+    message: json['message'] ?? "", 
+    isMember: json['isMember'] ?? 1, 
+    lat: json['lat'] ?? 0.toDouble(), 
+    lng: json['lng']  ?? 0.toDouble());
+}
+class MockData {
+  final String fullname;
+  final String image;
+  final String type;
+  final String message;
+  final int isMember;
+  final double lat;
+  final double lng;
+
+  MockData({required this.fullname, required this.image, required this.type, required this.message, required this.isMember, required this.lat, required this.lng});
+
+  factory MockData.fromJson(Map<String, dynamic> json) => MockData(
+    fullname: json['fullname'] ?? "", 
+    image: json['image'] ?? "", 
+    type: json['type'] ?? "", 
+    message: json['message'] ?? "", 
+    isMember: json['isMember'] ?? 1, 
+    lat: json['lat'] ?? 0.toDouble(), 
+    lng: json['lng']  ?? 0.toDouble());
+}
+
+class LeaderDetail {
+  final String fullname;
+  final String image;
+  final int isLeader;
+  final double lat;
+  final double lng;
+
+  LeaderDetail({required this.fullname, required this.image, required this.isLeader, required this.lat, required this.lng});
+  factory LeaderDetail.fromJson(Map<String, dynamic> json) => LeaderDetail(
+      fullname: json['fullname'] ?? "",
+      image: json['image'] ?? "",
+      isLeader: json['isLeader'] ?? 1,
+      lat: json['lat'] ?? 0.toDouble(),
+      lng: json['lng'] ?? 0.toDouble());
 }
 
 final tripService = TripServices();

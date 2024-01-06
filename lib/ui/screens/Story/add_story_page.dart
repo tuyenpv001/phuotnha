@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:social_media/domain/blocs/blocs.dart';
 import 'package:social_media/ui/helpers/helpers.dart';
@@ -105,12 +106,20 @@ class _AddStoryPageState extends State<AddStoryPage> {
                       )
                     ),
                   )
-                : Container(
-                    height: size.height * .4,
-                    width: size.width,
-                    color: Colors.black87,
-                    child: const Icon(Icons.wallpaper_rounded, color: Colors.white, size: 90),
-                  )
+                : InkWell(
+                  onTap: () async {
+                    AppPermission()
+                      .permissionAccessGalleryMultiplesImagesNewStory(
+                          await Permission.storage.request(),
+                          context,);
+                  },
+                  child: Container(
+                      height: size.height * .4,
+                      width: size.width,
+                      color: Colors.black87,
+                      child: const Icon(Icons.wallpaper_rounded, color: Colors.white, size: 90),
+                    ),
+                )
             ),
     
             // Expanded(

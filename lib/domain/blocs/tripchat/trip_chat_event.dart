@@ -10,17 +10,17 @@ class OnIsWrittingTripEvent extends ChatTripEvent {
 }
 
 class OnEmitMessageTripEvent extends ChatTripEvent {
-  final String uidSource;
-  final String uidUserTarget;
+  final String userId;
+  final String tripId;
   final String message;
 
-  OnEmitMessageTripEvent(this.uidSource, this.uidUserTarget, this.message);
+  OnEmitMessageTripEvent(this.userId, this.tripId, this.message);
 }
 
 class OnListenMessageTripEvent extends ChatTripEvent {
-  final String uidFrom;
-  final String uidTo;
+  final String userId;
+  final String tripId;
   final String messages;
 
-  OnListenMessageTripEvent(this.uidFrom, this.uidTo, this.messages);
+  OnListenMessageTripEvent(this.userId, this.tripId, this.messages);
 }

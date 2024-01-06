@@ -13,6 +13,7 @@ class ColorTheme {
 
   static Color bgPrimary = ColorAssets.fromHex('#4CB9E7');
   static Color bgDanger = ColorAssets.fromHex('#f73378');
+  static Color bgWarning = ColorAssets.fromHex('#ffc107');
   static Color bgGrey = ColorAssets.fromHex('#f5f4f7');
   static Color bgGreyBold = ColorAssets.fromHex('#f5f4f7');
   static Color bgCard = ColorAssets.fromHex('#96EFFF');

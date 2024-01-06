@@ -11,7 +11,7 @@ Route routeSlide({ required Widget page, Curve curved = Curves.easeInOut }){
       final curvedAnimation = CurvedAnimation(parent: animation, curve: curved);
 
       return SlideTransition(
-        position: Tween<Offset>(begin: const Offset(0.0, 1.0), end: Offset.zero).animate(curvedAnimation),
+        position: Tween<Offset>(begin: const Offset(0.8, 0.0), end: Offset.zero).animate(curvedAnimation),
         child: child,
       );
 
@@ -22,7 +22,7 @@ Route routeSlide({ required Widget page, Curve curved = Curves.easeInOut }){
 Route routeFade({ required Widget page, Curve curved = Curves.easeInOut }){
 
   return PageRouteBuilder(
-    transitionDuration: const Duration(milliseconds: 350),
+    transitionDuration: const Duration(milliseconds: 100),
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       

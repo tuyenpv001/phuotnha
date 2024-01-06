@@ -98,15 +98,22 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                     ],
                                   ),
                                   const SizedBox(width: 5.0),
-                                  if( snapshot.data![i].typeNotification == '1' )
-                                    const TextCustom(text: 'Lời mời kết bạn', fontSize: 16),
-                                  if( snapshot.data![i].typeNotification == '3' )
-                                    const TextCustom(text: 'Đã theo dõi', fontSize: 16),
-                                  if( snapshot.data![i].typeNotification == '2' )
+                                  // if( snapshot.data![i].typeNotification == '1' )
+                                  //   const TextCustom(text: 'Lời mời kết bạn', fontSize: 16),
+                                  // if( snapshot.data![i].typeNotification == '3' )
+                                  //   const TextCustom(text: 'Đã theo dõi', fontSize: 16),
+                                  if( snapshot.data![i].typeNotification == 'like' )
                                     const Row(
                                       children: [
                                         TextCustom(text:'Đã thích ', fontSize: 16, fontWeight: FontWeight.w500 ),
                                         TextCustom(text:'bài viết của bạn', fontSize: 16),
+                                      ],
+                                    ),
+                                  if( snapshot.data![i].typeNotification == 'comment' )
+                                    const Row(
+                                      children: [
+                                        TextCustom(text:'đã bình luận', fontSize: 16, fontWeight: FontWeight.w500 ),
+                                        TextCustom(text:' bài viết của bạn', fontSize: 16),
                                       ],
                                     ),
                                 ],

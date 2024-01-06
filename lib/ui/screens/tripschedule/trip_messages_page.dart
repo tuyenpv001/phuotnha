@@ -5,7 +5,9 @@ import 'package:sliding_top_panel/sliding_top_panel.dart';
 import 'package:social_media/colors.dart';
 import 'package:social_media/data/env/env.dart';
 import 'package:social_media/domain/blocs/blocs.dart';
+import 'package:social_media/domain/models/response/response_list_messages.dart';
 import 'package:social_media/domain/models/response/response_trip.dart';
+import 'package:social_media/domain/services/chat_services.dart';
 import 'package:social_media/domain/services/trip_services.dart';
 import 'package:social_media/ui/screens/messages/widgets/chat_message.dart';
 import 'package:social_media/ui/themes/button.dart';
@@ -73,16 +75,16 @@ class _ChatMessagesPageState extends State<ChatMessagesTripPage> with TickerProv
 
   _historyMessages() async {
 
-    // final List<ListMessage> list = await chatServices.listMessagesByUser(widget.uidUserTarget);
+    final List<ListMessageTrip> list = await chatServices.listMessagesByTrip(widget.tripUid);
 
-    // final history = list.map((m) => ChatMessage(
-    //   uidUser: m.sourceUid,
-    //   message: m.message,
-    //   time: m.createdAt,
-    //   animationController: AnimationController(vsync: this, duration: const Duration(milliseconds: 350))..forward()
-    // ));
+    final history = list.map((m) => ChatMessage(
+      uidUser: m.sourceUid,
+      message: m.message,
+      time: m.createdAt,
+      animationController: AnimationController(vsync: this, duration: const Duration(milliseconds: 350))..forward()
+    ));
 
-    // setState(() =>  chatMessage.insertAll(0, history));
+    setState(() =>  chatMessage.insertAll(0, history));
 
   }
 
