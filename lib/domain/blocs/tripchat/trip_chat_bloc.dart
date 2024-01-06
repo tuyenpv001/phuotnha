@@ -50,8 +50,8 @@ class ChatTripBloc extends Bloc<ChatTripEvent, ChatTripState> {
   Future<void> _emitMessages(
       OnEmitMessageTripEvent event, Emitter<ChatTripState> emit) async {
     _socket.emit('message-trip', {
-      'from': event.uidSource,
-      'to': event.uidUserTarget,
+      'from': event.userId,
+      'to': event.tripId,
       'message': event.message
     });
   }
@@ -59,6 +59,6 @@ class ChatTripBloc extends Bloc<ChatTripEvent, ChatTripState> {
   Future<void> _listenMessageEvent(
       OnListenMessageTripEvent event, Emitter<ChatTripState> emit) async {
     emit(ChatListengMessageTripState(
-        uidFrom: event.uidFrom, uidTo: event.uidTo, messages: event.messages));
+        uidFrom: event.userId, uidTo: event.tripId, messages: event.messages));
   }
 }
