@@ -26,6 +26,34 @@ class OnListenMessageEvent extends ChatEvent {
 
 }
 
+class OnEmitCallingListeningEvent extends ChatEvent {
+  final bool isCalling;
+  final Caller caller;
+  final Caller receiver;
+  final Channel channel;
+  OnEmitCallingListeningEvent(this.isCalling,this.caller, this.receiver,this.channel);
+}
+class OnEmitMakeCallingListeningEvent extends ChatEvent {
+  final bool isCalling;
+  final Caller caller;
+  final Caller receiver;
+  final Channel channel;
+  OnEmitMakeCallingListeningEvent(this.isCalling,this.caller, this.receiver,this.channel);
+}
+class OnCallListeningEvent extends ChatEvent {
+  final bool isCalling;
+  final Caller caller;
+  final Caller receiver;
+  final Channel channel;
+  OnCallListeningEvent(this.isCalling,this.caller, this.receiver,this.channel);
+}
+
+class OnAcceptVideoCallEvent extends ChatEvent {
+  final bool isVideoCalling;
+
+  OnAcceptVideoCallEvent(this.isVideoCalling);
+  
+}
 
 
 

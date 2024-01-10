@@ -31,6 +31,19 @@ class ChatServices {
 
     return ResponseListMessages.fromJson(jsonDecode(resp.body)).listMessage;
   }
+
+  Future<CallByUserRes> getCallByUser(String uid) async {
+
+    final token = await secureStorage.readToken();
+
+    final resp = await http.get(Uri.parse('${Environment.urlApi}/chat/get-call-by-user/'+ uid),
+      headers: { 'Accept': 'application/json', 'xxx-token' : token! }
+    );
+
+    return ResponseCallByUser.fromJson(jsonDecode(resp.body)).caller;
+  }
+
+
   Future<List<ListChat>> getListChatByTrip() async {
 
     final token = await secureStorage.readToken();

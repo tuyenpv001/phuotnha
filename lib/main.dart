@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/domain/blocs/blocs.dart';
+import 'package:social_media/domain/blocs/call/call_bloc.dart';
 import 'package:social_media/domain/blocs/post/post_bloc.dart';
 import 'package:social_media/ui/screens/intro/checking_login_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => TripScheduleBloc()),
         BlocProvider(create: (_) => StoryBloc()),
         BlocProvider(create: (_) => ChatBloc()),
+        BlocProvider(create: (_) => CallBloc()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

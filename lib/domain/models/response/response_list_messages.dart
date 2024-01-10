@@ -120,3 +120,72 @@ class ListMessageTrip {
         "created_at": createdAt.toIso8601String(),
       };
 }
+
+
+class ResponseCallByUser {
+  ResponseCallByUser({
+    required this.resp,
+    required this.message,
+    required this.caller,
+  });
+
+  bool resp;
+  String message;
+  CallByUserRes caller;
+
+  factory ResponseCallByUser.fromJson(Map<String, dynamic> json) =>
+      ResponseCallByUser(
+        resp: json["resp"],
+        message: json["message"],
+        caller:  CallByUserRes.fromJson(json["caller"][0]),
+      );
+
+  // Map<String, dynamic> toJson() => {
+  //       "resp": resp,
+  //       "message": message,
+  //       "listMessage": List<dynamic>.from(listMessage.map((x) => x.toJson())),
+  //     };
+}
+
+class CallByUserRes {
+  // uid,caller_uid,receiver_id,call_name,receiver_name,caller_avatar,receiver_avatar,channel_id,channel_name,is_disabled
+  final String uid;
+  final String calleruid;
+  final String receiverid;
+  final String callname;
+  final String receivername;
+  final String calleravatar;
+  final String receiveravatar;
+  final String channelid;
+  final String channelname;
+  int isdisabled;
+
+  CallByUserRes( {
+    required this.uid,
+    required this.calleruid,
+    required this.receiverid,
+    required this.callname,
+    required this.receivername,
+    required this.calleravatar,
+    required this.receiveravatar,
+    required this.channelid,
+    required this.channelname,
+    required this.isdisabled
+  });
+
+
+ // ,,,,,,,,,
+   factory CallByUserRes.fromJson(Map<String, dynamic> json) =>
+      CallByUserRes(
+        uid: json["uid"],
+        calleruid: json["caller_uid"],
+        callname: json["call_name"],
+        calleravatar: json["caller_avatar"],
+        receiverid: json["receiver_id"],
+        receivername: json["receiver_name"],
+        receiveravatar: json["receiver_avatar"],
+        channelid: json["channel_id"],
+        channelname: json["channel_name"],
+        isdisabled: json["is_disabled"],
+      );
+}

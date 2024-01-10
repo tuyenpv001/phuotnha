@@ -4,16 +4,23 @@
  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
  "version": "0.2.0",
  "configurations": [
+      {
+       "name": "emulator-5554",
+       "request": "launch",
+       "type": "dart",
+       "deviceId": "emulator-5554"
+      },
+      {
+       "name": "Redmi",
+       "request": "launch",
+       "type": "dart",
+       "deviceId": "371c7122"
+      },
+ ],
+ "compounds": [
   {
-   "name": "phuotnha-fe",
-   "request": "launch",
-   "type": "dart"
-  },
- {
-  "name": "emulator-5554",
-  "request": "launch",
-  "type": "dart",
-  "deviceId": "emulator-5554"
- }
+   "name": "All devices",
+   "configurations": ["emulator-5554","Redmi"]
+  }
  ]
 }
