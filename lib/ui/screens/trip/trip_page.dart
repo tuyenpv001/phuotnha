@@ -111,7 +111,7 @@ class _ListViewTrip  extends StatelessWidget{
         },
         
         child: TripItem(title: trip.title, totalMemberJoined: trip.totalMemberJoined, description: trip.description, tripUid: trip.tripUid, createdAt: trip.createdAt, dateStart: trip.dateStart, 
-        dateEnd: trip.dateEnd,username: trip.username, avatar: trip.avatar, images: trip.images, tripMember: trip.tripMember, isClose: trip.isClose, isJoined: trip.isJoined, isLeader: trip.isLeader, tripFrom: trip.tripFrom, tripTo: trip.tripTo, isOwner: trip.isOwner,)
+        dateEnd: trip.dateEnd,username: trip.username, avatar: trip.avatar, images: trip.images, tripMember: trip.tripMember, isClose: trip.isClose, isJoined: trip.isJoined, isLeader: trip.isLeader, tripFrom: trip.tripFrom, tripTo: trip.tripTo, isOwner: trip.isOwner,score: trip.score,)
         );
   }
 }

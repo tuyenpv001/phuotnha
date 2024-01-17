@@ -35,7 +35,7 @@ class _SearchMapState extends State<SearchMap> {
                   // Pickup address
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.grey,
+                      color: Colors.white,
                       borderRadius:  BorderRadius.circular(5),
 
                     ),
@@ -44,7 +44,7 @@ class _SearchMapState extends State<SearchMap> {
                       controller: pickUpTextEditingController,
                       decoration: const InputDecoration(
                         hintText: "Pick up address",
-                        fillColor: Colors.white12,
+                        fillColor: Colors.white,
                         filled: true,
                         isDense: true,
                         border: InputBorder.none,
@@ -63,7 +63,7 @@ class _SearchMapState extends State<SearchMap> {
                   // destination address
                   Container(
                     decoration: BoxDecoration(
-                  color: Colors.grey,
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(5),
                     ),
                     child: Padding(

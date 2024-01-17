@@ -10,8 +10,8 @@ Future<Uint8List> getIconByType(String imageName) async {
   Uint8List? image = await loadNetworkImage(imageName);
   final ui.Codec markerImageCodec = await instantiateImageCodec(
       image.buffer.asUint8List(),
-      targetHeight: 100,
-      targetWidth: 100);
+      targetHeight: 125,
+      targetWidth: 125);
 
   final ui.FrameInfo frameInfo = await markerImageCodec.getNextFrame();
   final ByteData? byteData =

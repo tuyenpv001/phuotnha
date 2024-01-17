@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:social_media/colors.dart';
 import 'package:social_media/constants.dart';
 import 'package:social_media/data/env/env.dart';
@@ -208,6 +209,20 @@ class ScheduleTripItem extends StatelessWidget {
                         );
                       },
                     ));
+
+                    //      Fluttertoast.showToast(
+                    //   msg: "This is a toast message",
+                    //   toastLength: Toast
+                    //       .LENGTH_SHORT, // Duration for which the toast should be visible
+                    //   gravity: ToastGravity
+                    //       .TOP, // Toast gravity (e.g., BOTTOM, TOP, CENTER)
+                    //   timeInSecForIosWeb:
+                    //       1, // Duration for which the toast should be visible on iOS/web platforms
+                    //   backgroundColor:
+                    //       Colors.grey, // Background color of the toast
+                    //   textColor: Colors.white, // Text color of the toast
+                    //   fontSize: 16.0, // Font size of the toast message
+                    // );
                  }, isHighLight: false,),
                  const SizedBox(
                   width: 5,

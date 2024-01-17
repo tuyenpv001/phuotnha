@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,6 +40,7 @@ class _AddTripPageState extends State<AddTripPage> {
   late TextEditingController _tripFromController;
   late TextEditingController _tripToController;
   late TextEditingController _memberController;
+  late TextEditingController _safeDistanceController;
   final _keyForm = GlobalKey<FormState>();
   late List<AssetEntity> _mediaList = [];
   late File fileImage;
@@ -55,6 +57,7 @@ class _AddTripPageState extends State<AddTripPage> {
     _tripFromController = TextEditingController();
     _tripToController = TextEditingController();
     _memberController = TextEditingController();
+    _safeDistanceController = TextEditingController();
   }
 
   @override
@@ -204,7 +207,7 @@ class _AddTripPageState extends State<AddTripPage> {
                               ),
                             ),
                             const SizedBox(height: 15,),
-                            const Label(name: "Số lương thành viên"),
+                            const Label(name: "Số lượng thành viên"),
                             Container(
                               padding: const EdgeInsets.only(
                                   top: 5, left: 20, right: 20, bottom: 10),
@@ -222,6 +225,26 @@ class _AddTripPageState extends State<AddTripPage> {
                                   hintText: 'Số lượng thành viên',
                                 ),
                                 validator: RequiredValidator(errorText: 'Vui lòng nhập số lượng thành viên.'),
+                              ),
+                            ),
+                            const Label(name: "Khoảng cách an toàn"),
+                            Container(
+                              padding: const EdgeInsets.only(
+                                  top: 5, left: 20, right: 20, bottom: 10),
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: Colors.grey[100]!,
+                                    ),
+                                  )),
+                              child: TextFormField(
+                                controller: _safeDistanceController,
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'khoảng cách an toàn( mặc định 200m)',
+                                ),
+                          
                               ),
                             ),
                             const SizedBox(height: 15,),
@@ -249,6 +272,9 @@ class _AddTripPageState extends State<AddTripPage> {
                                       firstDate: DateTime(2000),
                                       lastDate: DateTime(3000));
                                   if(pickDate != null) {
+                                    // if(pickDate.compareTo(DateTime.now()) >= 0){
+                                        
+                                    // }
                                     setState(() {
                                       _dateStartController.text = DateFormat("yyyy-MM-dd").format(pickDate);
                                     });
@@ -282,6 +308,9 @@ class _AddTripPageState extends State<AddTripPage> {
                                       firstDate: DateTime(2000),
                                       lastDate: DateTime(3000));
                                   if(pickDate != null) {
+                                    // if(pickDate.compareTo(DateTime.parse(_dateStartController.text)) < 0) {
+
+                                    // }
                                     setState(() {
                                       _dateEndController.text = DateFormat("yyyy-MM-dd").format(pickDate);
                                     });

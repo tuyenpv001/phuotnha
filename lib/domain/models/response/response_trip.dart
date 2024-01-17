@@ -36,6 +36,7 @@ class Trip {
   final int isClose;
   final int isJoined;
   final int isOwner;
+  final double score;
 
   Trip(
       {required this.tripUid,
@@ -54,30 +55,32 @@ class Trip {
       required this.isJoined,
       required this.isOwner,
       required this.title,
+      required this.score,
       required this.description,
       required this.dateStart,
       required this.dateEnd});
 
   factory Trip.fromJson(Map<String, dynamic> json) => Trip(
-      tripUid: json["trip_uid"],
-      title: json["trip_title"],
-      tripFrom: json["trip_from"],
-      tripTo: json["trip_to"],
-      description: json["trip_title"],
+      tripUid: json["trip_uid"] ?? '',
+      title: json["trip_title"]  ??  '',
+      tripFrom: json["trip_from"]  ?? '',
+      tripTo: json["trip_to"]   ?? '',
+      description: json["trip_title"] ?? ' ',
       dateStart: DateTime.parse(json["trip_date_start"]).add(const Duration(days: 1)),
       dateEnd: DateTime.parse(json["trip_date_end"]).add(const Duration(days: 1)),
       createdAt: DateTime.parse(json["created_at"]),
-      personUid: json["userID"],
-      username: json["fullname"],
-      isLeader: json["is_leader"],
-      userAchievement: json["userAchievement"],
-      avatar: json["image"],
+      personUid: json["userID"] ?? '',
+      username: json["fullname"] ?? '',
+      isLeader: json["is_leader"] ?? 0,
+      userAchievement: json["userAchievement"] ?? '',
+      avatar: json["image"] ?? "",
       images: json["tripimages"] ?? "",
-      tripMember: json["trip_member"],
-      totalMemberJoined: json["totalMemberJoined"],
-      isClose: json["isClose"],
-      isJoined: json["isJoined"],
-      isOwner: json["isOwner"]);
+      tripMember: json["trip_member"] ?? 0,
+      totalMemberJoined: json["totalMemberJoined"] ?? 0,
+      isClose: json["isClose"] ?? 0,
+      score: json["score"] + 0.0 ?? 0.toDouble(),
+      isJoined: json["isJoined"] ?? 0,
+      isOwner: json["isOwner"] ?? 0);
 }
 
 // {
@@ -126,6 +129,7 @@ class ResponseTripDetail {
   final List<TripImage> images;
   final List<TripRecommend> tripRecommends;
   final List<TripMember> tripMembers;
+  // final List<TripComment> tripComments;
 
   ResponseTripDetail({
     required this.resp,
@@ -134,6 +138,7 @@ class ResponseTripDetail {
     required this.images,
     required this.tripRecommends,
     required this.tripMembers,
+    // required this.tripComments,
   });
 
   factory ResponseTripDetail.fromJson(Map<String, dynamic> json) =>
@@ -148,8 +153,12 @@ class ResponseTripDetail {
             json["tripRecommends"].map((x) => TripRecommend.fromJson(x))),
         tripMembers: List<TripMember>.from(
             json["tripMembers"].map((x) => TripMember.fromJson(x))),
+        // tripComments: List<TripComment>.from(
+        //     json["comments"].map((x) => TripComment.fromJson(x))),
       );
 }
+
+
 
 class TripRecommend {
 // `uid`, `trip_uid`, `lat`, `lng`, `address_short`, `address_detail`, `isGasStation`, `isRepairMotobike`isEatPlace,`isCheckIn
@@ -250,6 +259,8 @@ class TripDetail {
   final int isJoined;
   final int isSaved;
   final int isOwner;
+  // final double score;
+  final String tripStatus;
 
   TripDetail(
       {required this.tripUid,
@@ -270,6 +281,8 @@ class TripDetail {
       required this.title,
       required this.description,
       required this.dateStart,
+      required this.tripStatus,
+      // required this.score,
       required this.dateEnd});
 
   factory TripDetail.fromJson(Map<String, dynamic> json) => TripDetail(
@@ -286,11 +299,13 @@ class TripDetail {
       isLeader: json["is_leader"] ?? 0,
       userAchievement: json["userAchievement"] ?? 'O',
       avatar: json["image"] ?? '',
+      tripStatus: json["trip_status"] ?? 'open',
       tripMember: json["trip_member"] ?? 0,
       totalMemberJoined: json["totalMemberJoined"] ?? 0,
       isClose: json["isClose"] ?? 0,
       isJoined: json["isJoined"] ?? 0,
       isSaved: json["isSaved"] ?? 0,
+      // score: json["score"] + 0.0 ?? 0.toDouble(),
       isOwner: json["isOwner"] ?? 0);
 }
 

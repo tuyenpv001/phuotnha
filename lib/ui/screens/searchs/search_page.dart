@@ -9,6 +9,7 @@ import 'package:social_media/domain/services/user_services.dart';
 import 'package:social_media/ui/helpers/helpers.dart';
 import 'package:social_media/domain/models/response/response_search.dart';
 import 'package:social_media/ui/screens/profile/profile_another_user_page.dart';
+import 'package:social_media/ui/screens/trip/trip_detail.dart';
 import 'package:social_media/ui/widgets/heading_block.dart';
 import 'package:social_media/ui/widgets/widgets.dart';
 
@@ -119,12 +120,12 @@ class _SearchPageState extends State<SearchPage> {
         if (!snapshot.hasData)
           return const Center(child: CircularProgressIndicator());
 
-        if (snapshot.data!.isEmpty) {
-          return ListTile(
-            title: TextCustom(
-                text: 'Không có kết quả cho: ${_searchController.text}'),
-          );
-        }
+        // if (snapshot.data!.isEmpty) {
+        //   return ListTile(
+        //     title: TextCustom(
+        //         text: 'Không có kết quả cho: ${_searchController.text}'),
+        //   );
+        // }
 
         return _ListUsers(listUser: snapshot.data!);
       },
@@ -138,6 +139,7 @@ class _SearchPageState extends State<SearchPage> {
         if (snapshot.data == null || snapshot.data!.isEmpty) return Container();
 
         return Column(
+
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Padding(
@@ -147,6 +149,7 @@ class _SearchPageState extends State<SearchPage> {
                 subTile: 'chuyến đi có cùng từ khóa',
               ),
             ),
+            SizedBox(height: 10,),
             _ListPost(list: snapshot.data!),
           ],
         );
@@ -252,24 +255,30 @@ class _ListPost extends StatelessWidget {
       itemBuilder: (context, i) {
         return InkWell(
           onTap: () {
-            Navigator.push(
+            if(list[i].type == 'trip') {
+              Navigator.push(
                 context,
                 routeSlide(
-                    page: ProfileAnotherUserPage(idUser: list[i].uid)));
+                    page: TripDetailPage(tripId: list[i].uid)));
+            }
+          
           },
           child: Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: Container(
+              alignment: AlignmentDirectional.centerStart,
               padding: const EdgeInsets.only(left: 5.0),
               height: 250,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextCustom(text: list[i].name, color: Colors.grey),
-                  const SizedBox(width: 5.0),
+                  TextCustom(text: list[i].name, color: Colors.grey,textAlign: TextAlign.left),
+                  const SizedBox(height: 10.0),
                   Container(
                     height: 200,
                     decoration: BoxDecoration(
                       image: DecorationImage(
+                        fit: BoxFit.cover,
                         image: NetworkImage(Environment.baseUrl + list[i].image),
                       ),
                     ),

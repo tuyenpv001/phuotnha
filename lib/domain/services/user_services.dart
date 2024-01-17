@@ -293,7 +293,16 @@ class UserServices {
     return DefaultResponse.fromJson(jsonDecode(resp.body));
   }
 
+  Future<DefaultResponse> updateLocation(double lat, double lng) async {
+    final token = await secureStorage.readToken();
+    final resp = await http.put(
+        Uri.parse('${Environment.urlApi}/user/location'),
+        headers: {'Accept': 'application/json', 'xxx-token': token!},
+        body: {'lat': lat.toString(), 'lng': lng.toString()});
 
+
+    return DefaultResponse.fromJson(jsonDecode(resp.body));
+  }
 
 
 }

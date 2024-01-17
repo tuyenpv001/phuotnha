@@ -15,7 +15,7 @@ class OnStartTrip extends TripScheduleEvent {
 
 class OnRateTrip extends TripScheduleEvent {
   final String comment;
-  final double rate;
+  final String rate;
   final String tripUid;
   final String uid;
 
@@ -29,6 +29,20 @@ class OnAddRoleTrip extends TripScheduleEvent {
   final String tripUid;
 
   OnAddRoleTrip({required this.uid, required this.role, required this.tripUid});
+}
+class OnUpdateLocationTrip extends TripScheduleEvent {
+  final double lat;
+  final double lng;
+
+
+  OnUpdateLocationTrip({required this.lat, required this.lng,});
+}
+
+class OnUpdateLocationAllMemberTrip extends TripScheduleEvent {
+  final String tripId;
+
+
+  OnUpdateLocationAllMemberTrip({required this.tripId});
 }
 
 

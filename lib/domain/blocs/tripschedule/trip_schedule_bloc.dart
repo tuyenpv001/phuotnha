@@ -14,6 +14,8 @@ class TripScheduleBloc extends Bloc<TripScheduleEvent, TripScheduleState> {
     on<OnStartTrip>(_onStartTrip);
     on<OnAddRoleTrip>(_addRoleTripByUser);
     on<OnRateTrip>(_rateTrip);
+    on<OnUpdateLocationTrip>(_updateLocationTrip);
+    on<OnUpdateLocationAllMemberTrip>(_updateLocationAllMemberTrip);
   }
 
   Future<void> _onStartTrip(OnStartTrip event, Emitter<TripScheduleState> emit) async {
@@ -48,7 +50,7 @@ class TripScheduleBloc extends Bloc<TripScheduleEvent, TripScheduleState> {
     try {
       emit(LoadingAddRoleTripSchedule());
 
-      final data = await tripService.addCommentAndRateTripByUser(event.uid, event.tripUid, event.comment, event.rate);
+      final data = await tripService.addCommentAndRateTripByUser(event.tripUid, event.comment, event.rate);
 
       if (data.resp) {
         emit(SuccessTripSchedule());
@@ -66,7 +68,7 @@ class TripScheduleBloc extends Bloc<TripScheduleEvent, TripScheduleState> {
     try {
        final token = await secureStorage.readToken();
 
-      _socket = io.io(Environment.baseUrl + 'socket-chat-message', {
+      _socket = io.io(Environment.baseUrl + 'socket-trip-starting', {
         'transports': ['websocket'],
         'autoConnect': true,
         'forceNew': true,
@@ -75,8 +77,9 @@ class TripScheduleBloc extends Bloc<TripScheduleEvent, TripScheduleState> {
 
       _socket.connect();
 
-      _socket.on('trip-start', (data) {
+      _socket.on('start-trip', (data) {
         print("Connect");
+        print(data);
         // add(OnListenMessageEvent(data['from'], data['to'], data['message']));
       });
     } catch (e) {
@@ -86,7 +89,7 @@ class TripScheduleBloc extends Bloc<TripScheduleEvent, TripScheduleState> {
   }
 
   void disconnectSocketMessagePersonal() {
-    _socket.off('trip-start');
+    _socket.off('start-trip');
   }
 
   void disconnectSocket() {
@@ -102,17 +105,20 @@ class TripScheduleBloc extends Bloc<TripScheduleEvent, TripScheduleState> {
   //     'message': event.message
   //   });
   // }
+  Future<void> _updateLocationTrip(
+      OnUpdateLocationTrip event, Emitter<TripScheduleState> emit) async {
+    _socket.emit('start-trip', {
+      'lat': event.lat,
+      'lng': event.lng,
 
-  // Future<void> _listenMessageEvent(
-  //     OnListenMessageEvent event, Emitter<ChatState> emit) async {
-  //   emit(ChatListengMessageState(
-  //       uidFrom: event.uidFrom, uidTo: event.uidTo, messages: event.messages));
-  // }
-
-
-
-
-
+    });
+  }
+  Future<void> _updateLocationAllMemberTrip(
+      OnUpdateLocationAllMemberTrip event, Emitter<TripScheduleState> emit) async {
+    _socket.emit('start-trip', {
+      'tripId': event.tripId
+    });
+  }
 
 }
 

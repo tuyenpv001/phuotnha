@@ -24,6 +24,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
     on<OnLikeOrUnlikeComment>(_likeOrUnlikeComment);
     on<OnDeleteTrip>(_deleteTripById);
     on<OnChangeStatusTrip>(_changeStatusTrip);
+    on<OnCommentAndRateTrip>(_commentAndRateTrip);
   }
 
   // Future<void> _onPrivacyTrip( OnPrivacyTripEvent event, Emitter<TripState> emit ) async {
@@ -224,5 +225,23 @@ class TripBloc extends Bloc<TripEvent, TripState> {
       emit(FailureTrip(e.toString()));
     }
 
+  }
+
+   Future<FutureOr<void>> _commentAndRateTrip(
+      OnCommentAndRateTrip event, Emitter<TripState> emit) async {
+    try {
+      emit(LoadingSaveTrip());
+
+      final data =
+          await tripService.addCommentAndRateTripByUser(event.tripId,event.comment,event.rate);
+
+      if (data.resp) {
+        emit(SuccessTrip());
+      } else {
+        emit(FailureTrip(data.message));
+      }
+    } catch (e) {
+      emit(FailureTrip(e.toString()));
+    }
   }
 }

@@ -96,6 +96,12 @@ class OnChangeStatusTrip extends TripEvent {
   final String status;
   OnChangeStatusTrip(this.tripId, this.status);
 }
+class OnCommentAndRateTrip extends TripEvent {
+  final String tripId;
+  final String comment;
+  final String rate;
+  OnCommentAndRateTrip(this.tripId, this.comment, this.rate);
+}
 
 
 

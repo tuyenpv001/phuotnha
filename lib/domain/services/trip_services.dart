@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:agora_uikit/agora_uikit.dart';
 import 'package:http/http.dart' as http;
 import 'package:social_media/data/env/env.dart';
 import 'package:social_media/data/storage/secure_storage.dart';
 import 'package:social_media/domain/models/response/default_response.dart';
+import 'package:social_media/domain/models/response/response_comment_trip.dart';
 import 'package:social_media/domain/models/response/response_comments.dart';
 import 'package:social_media/domain/models/response/response_trip.dart';
 import 'package:social_media/domain/models/response/response_trip_by_user.dart';
+import 'package:social_media/domain/models/response/response_trip_marker.dart';
 import 'package:social_media/domain/models/response/response_trip_profile.dart';
 import 'package:social_media/domain/models/response/response_trip_saved.dart';
 
@@ -150,6 +153,18 @@ class TripServices {
 
     return DefaultResponse.fromJson(jsonDecode(resp.body));
   }
+
+   Future<DefaultResponse> addStartTrip(
+      String tripUid, String route) async {
+    final token = await secureStorage.readToken();
+
+    final resp = await http.post(
+        Uri.parse('${Environment.urlApi}/trip/trip-start'),
+        headers: {'Accept': 'application/json', 'xxx-token': token!},
+        body: {'trip_uid': tripUid, 'trip_route': route});
+
+    return DefaultResponse.fromJson(jsonDecode(resp.body));
+  }
   Future<DefaultResponse> addRoleTripByUser(String uid, String tripUid,String role) async {
     final token = await secureStorage.readToken();
 
@@ -160,12 +175,21 @@ class TripServices {
 
     return DefaultResponse.fromJson(jsonDecode(resp.body));
   }
-  Future<DefaultResponse> addCommentAndRateTripByUser(String uid, String tripUid,String tripComment, double tripRate ) async {
+  Future<DefaultResponse> addCommentAndRateTripByUser(String tripUid,String tripComment, String tripRate ) async {
     final token = await secureStorage.readToken();
-    final resp = await http.post(
+    final resp = await http.put(
         Uri.parse('${Environment.urlApi}/trip/rate-trip'),
         headers: {'Accept': 'application/json', 'xxx-token': token!},
-        body: {'trip_member_uid': uid, 'trip_uid': tripUid, 'trip_rate': tripRate, 'trip_comment': tripComment});
+        body: {'trip_uid': tripUid, 'trip_rate': tripRate, 'trip_comment': tripComment});
+
+    return DefaultResponse.fromJson(jsonDecode(resp.body));
+  }
+  Future<DefaultResponse> addCommentTrip(String tripUid,String tripComment) async {
+    final token = await secureStorage.readToken();
+    final resp = await http.post(
+        Uri.parse('${Environment.urlApi}/trip/comment'),
+        headers: {'Accept': 'application/json', 'xxx-token': token!},
+        body: {'trip_uid': tripUid, 'trip_comment': tripComment});
 
     return DefaultResponse.fromJson(jsonDecode(resp.body));
   }
@@ -202,24 +226,44 @@ class TripServices {
     return DefaultResponse.fromJson(jsonDecode(resp.body));
   }
 
-  Future<List<Comment>> getCommentsByUidTrip(String uidTrip) async {
+  Future<List<CommentTrip>> getCommentsByUidTrip(String uidTrip) async {
     final token = await secureStorage.readToken();
 
     final resp = await http.get(
-      Uri.parse('${Environment.urlApi}/trip/get-comments-by-idtrip/' + uidTrip),
+      Uri.parse('${Environment.urlApi}/trip/comments/' + uidTrip),
       headers: {'Accept': 'application/json', 'xxx-token': token!},
     );
 
-    return ResponseComments.fromJson(jsonDecode(resp.body)).comments;
+    return ResponseCommentsTrip.fromJson(jsonDecode(resp.body)).comments;
+  }
+  Future<List<TripComment>> getCommentsByUidTripCompleted(String uidTrip) async {
+    final token = await secureStorage.readToken();
+
+    final resp = await http.get(
+      Uri.parse('${Environment.urlApi}/trip/comments-completed/' + uidTrip),
+      headers: {'Accept': 'application/json', 'xxx-token': token!},
+    );
+
+    return ResponseCommentsTripCompleted.fromJson(jsonDecode(resp.body)).comments;
+  }
+  Future<List<TripRecommend>> getMarkersByUidTrip(String uidTrip) async {
+    final token = await secureStorage.readToken();
+
+    final resp = await http.get(
+      Uri.parse('${Environment.urlApi}/trip/markers/' + uidTrip),
+      headers: {'Accept': 'application/json', 'xxx-token': token!},
+    );
+
+    return ResponseMarkersTrip.fromJson(jsonDecode(resp.body)).markers;
   }
 
   Future<DefaultResponse> addNewComment(String uidTrip, String comment) async {
     final token = await secureStorage.readToken();
 
     final resp = await http.post(
-        Uri.parse('${Environment.urlApi}/trip/add-new-comment'),
+        Uri.parse('${Environment.urlApi}/trip/comment'),
         headers: {'Accept': 'application/json', 'xxx-token': token!},
-        body: {'uidTrip': uidTrip, 'comment': comment});
+        body: {'trip_uid': uidTrip, 'trip_comment': comment});
 
     return DefaultResponse.fromJson(jsonDecode(resp.body));
   }
@@ -252,13 +296,15 @@ class ResponseLocationMember {
   final LeaderDetail leader;
   final List<LocationMember> members;
   final List<MockData> mockData;
+  final List<ToastMessage> toats;
 
   ResponseLocationMember({
     required this.resp,
     required this.message,
     required this.members,
     required this.leader,
-    required this.mockData
+    required this.mockData,
+    required this.toats
   });
 
   factory ResponseLocationMember.fromJson(Map<String, dynamic> json) =>
@@ -270,7 +316,37 @@ class ResponseLocationMember {
             json["members"].map((x) => LocationMember.fromJson(x))),
         mockData: List<MockData>.from(
             json["mockData"].map((x) => MockData.fromJson(x))),
+        toats: List<ToastMessage>.from(
+          json['toats'].map((x) => ToastMessage.fromJson(x))
+        )
       );
+}
+
+class ToastMessage {
+  //  trip_uid: '349a5c74-e31b-4cb3-87aa-e3be559fa824',
+  //   userId: 'e3be559fa8240',
+  //   from: 'Văn Hào',
+  //   to: 'Cơm tấm Calithiu',
+  //   type: { type: 'isEatPlace', value: 1 },
+  //   distance: 0.1086454898689911
+
+  final String tripId;
+  final String userId;
+  final String from;
+  final String to;
+  final Map<String, dynamic> type;
+  final double distance;
+
+  ToastMessage({required this.tripId, required this.userId, required this.from, required this.to, required this.type, required this.distance});
+
+  factory ToastMessage.fromJson(Map<String, dynamic> json) => ToastMessage(
+    tripId: json['trip_uid'], 
+    userId: json['userId'], 
+    from: json['from'], 
+    to: json['to'], 
+    type: json['type'], 
+    distance: json['distance']);
+
 }
 
 class LocationMember {
@@ -298,18 +374,39 @@ class MockData {
   final String image;
   final String type;
   final String message;
-  final int isMember;
+  final String isMark;
   final double lat;
   final double lng;
+  final int index;
+  final int level;
 
-  MockData({required this.fullname, required this.image, required this.type, required this.message, required this.isMember, required this.lat, required this.lng});
+
+  // uid: 4,
+  //   trip_uid: '349a5c74-e31b-4cb3-87aa-e3be559fa824',
+  //   user_id: 'e3be559fa8243',
+  //   fullname: 'Văn Tuyển',
+  //   image: 'avatar-default.png',
+  //   lat: 10.75477,
+  //   lng: 106.63825,
+  //   index: 558,
+  //   is_mark: 'no',
+  //   level: 1,
+  //   type: 'normal',
+  //   message: 'An toàn'
+  // }
+
+  MockData({required this.fullname, required this.image, required this.type, required this.message, 
+  required this.isMark,required this.level,
+   required this.lat, required this.lng, required this.index});
 
   factory MockData.fromJson(Map<String, dynamic> json) => MockData(
     fullname: json['fullname'] ?? "", 
     image: json['image'] ?? "", 
     type: json['type'] ?? "", 
     message: json['message'] ?? "", 
-    isMember: json['isMember'] ?? 1, 
+    isMark: json['is_mark'] ?? "", 
+    index: json['isMember'] ?? 0, 
+    level: json['level'] ?? 0, 
     lat: json['lat'] ?? 0.toDouble(), 
     lng: json['lng']  ?? 0.toDouble());
 }
