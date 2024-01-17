@@ -53,7 +53,7 @@ class _MapDetailState extends State<MapDetail> {
 
         return !snapshot.hasData ? Center(child: Text("loading..."),): 
        Container(
-        height: size.height ,
+        height: size.height * 0.65 ,
           decoration: BoxDecoration(
           
             borderRadius: BorderRadius.circular(14),
